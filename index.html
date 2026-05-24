@@ -117,7 +117,6 @@
       <span style="font-size: 12px; color: #555; margin-right: 10px;">Hide rows:</span>
       <button onclick="toggleHeatmapCategory('digital')" id="hm-btn-digital">Hide Digital Realty</button>
       <button onclick="toggleHeatmapCategory('arevon')" id="hm-btn-arevon">Hide Arevon</button>
-      <button onclick="toggleHeatmapCategory('hines')" id="hm-btn-hines">Hide Hines (reference)</button>
       <button onclick="toggleHeatmapCategory('westlake')" id="hm-btn-westlake">Hide Westlake</button>
       <button onclick="resetHeatmap()" style="background: #c0392b;">Reset All</button>
     </div>
@@ -387,17 +386,6 @@ const heatmapRows = [
     },
     footnote: 'Q3 2025 ($19,796.54) listed "No Agencies Lobbied" - those dollars are not attributed to any agency cell. Q4 2025 ($0) listed 10 agencies; $0 contributes nothing.',
   },
-  // Hines (reference)
-  {
-    id: 'r9', category: 'hines', label: 'Hines Interests LP - 6000 Hollywood (reference)',
-    firm: 'Allen Matkins', period: 'Q1 2025 - Q1 2026',
-    totalFee: 343065.50,
-    cells: {
-      'Building & Safety': 343065.50,
-      'Planning, City': 343065.50,
-      'Public Works, Engineering': 343065.50,
-    },
-  },
 ];
 
 const heatmapHiddenCategories = new Set();
@@ -439,14 +427,13 @@ function renderHeatmap() {
   html += '</tbody></table>';
   document.getElementById('heatmap').innerHTML = html;
   // Update toggle button states
-  ['digital', 'arevon', 'hines', 'westlake'].forEach(cat => {
+  ['digital', 'arevon', 'westlake'].forEach(cat => {
     const btn = document.getElementById('hm-btn-' + cat);
     if (btn) {
       const isHidden = heatmapHiddenCategories.has(cat);
       const labelMap = {
         digital: 'Digital Realty',
         arevon: 'Arevon',
-        hines: 'Hines (reference)',
         westlake: 'Westlake',
       };
       btn.textContent = (isHidden ? 'Show ' : 'Hide ') + labelMap[cat];
@@ -473,12 +460,10 @@ const activityRows = [
   ['Q1 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 43838.50, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_51330.pdf'],
   ['Q1 2025', 'Allen Matkins', 'Hessed Development, Inc.', '525 S. Virgil (matter 396209.00002)', 11108.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_51330.pdf'],
   ['Q1 2025', 'Allen Matkins', 'Hessed Development, Inc.', '3124 W. 6th + 610 & 612 Shatto Place (matter 394409.00002)', 0, 'No Agencies Lobbied', 'CEC34_51330.pdf'],
-  ['Q1 2025', 'Allen Matkins', 'Hines Interests LP', '6000 Hollywood Boulevard (matter 390889.00004)', 69162.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_51330.pdf'],
   // Q2 2025 Allen Matkins
   ['Q2 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 46721.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_52604.pdf'],
   ['Q2 2025', 'Allen Matkins', 'Hessed Development, Inc.', '525 S. Virgil (matter 396209.00002)', 32245.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_52604.pdf'],
   ['Q2 2025', 'Allen Matkins', 'Hessed Development, Inc.', '3124 W. 6th + 610 & 612 Shatto Place (matter 394409.00002)', 0, 'No Agencies Lobbied', 'CEC34_52604.pdf'],
-  ['Q2 2025', 'Allen Matkins', 'Hines Interests LP', '6000 Hollywood Boulevard (matter 390889.00004)', 79983.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_52604.pdf'],
   // Q2 2025 Marathon (first Westlake quarter)
   ['Q2 2025', 'Marathon', '2727 6th Street LP', '2727 W. 6th Street', 0, 'Mayor; City Council; Neighborhood Councils; Planning City', 'CEC34_52518.pdf'],
   ['Q2 2025', 'Marathon', 'Shatto Emet QOZB LP', '525 S. Virgil Avenue', 12500.00, 'Mayor; City Council; Neighborhood Councils; Planning City', 'CEC34_52518.pdf'],
@@ -490,7 +475,6 @@ const activityRows = [
   ['Q3 2025', 'Allen Matkins', 'Hessed Development, Inc.', '3124 W. 6th + 610 & 612 Shatto Place (matter 394409.00002)', 0, 'No Agencies Lobbied', 'CEC34_53743.pdf'],
   ['Q3 2025', 'Allen Matkins', 'Hessed Development, Inc.', '525 S. Virgil (matter 396209.00002)', 0, 'No Agencies Lobbied', 'CEC34_53743.pdf'],
   ['Q3 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 78955.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_53743.pdf'],
-  ['Q3 2025', 'Allen Matkins', 'Hines Interests LP', '6000 Hollywood Boulevard (matter 390889.00004)', 89417.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_53743.pdf'],
   // Q3 2025 Marathon
   ['Q3 2025', 'Marathon', '2727 6th Street LP', '2727 W. 6th Street', 4761.25, 'City Council; Neighborhood Councils', 'CEC34_53466.pdf'],
   ['Q3 2025', 'Marathon', 'Shatto Emet QOZB LP', '525 S. Virgil Avenue', 19883.75, 'Mayor; City Council; Building & Safety; Fire (LAFD); Neighborhood Councils; Planning City; Police (LAPD); Transportation (LADOT)', 'CEC34_53466.pdf'],
@@ -501,7 +485,6 @@ const activityRows = [
   ['Q4 2025', 'Allen Matkins', 'Shatto Emet QOZB LP', '525 S. Virgil (matter 396209.00002)', 72102.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_54865.pdf'],
   ['Q4 2025', 'Allen Matkins', 'Hessed Development, Inc.', '525 S. Virgil + 3124/Shatto Place (matters open)', 0, 'No Agencies Lobbied', 'CEC34_54865.pdf'],
   ['Q4 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 75475.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_54865.pdf'],
-  ['Q4 2025', 'Allen Matkins', 'Hines Interests LP', '6000 Hollywood Boulevard (matter 390889.00004)', 50835.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_54865.pdf'],
   // Q4 2025 Marathon (boilerplate quarter)
   ['Q4 2025', 'Marathon', '2727 6th Street LP', '2727 W. 6th Street', 2140.00, 'Mayor; City Council; Building & Safety; Fire (LAFD); Harbor (POLA); Neighborhood Councils; Planning City; Police (LAPD); Transportation (LADOT); LADWP (boilerplate)', 'CEC34_54495.pdf'],
   ['Q4 2025', 'Marathon', 'Shatto Emet QOZB LP', '525 S. Virgil Avenue', 22591.63, 'Mayor; City Council; Building & Safety; Fire (LAFD); Harbor (POLA); Neighborhood Councils; Planning City; Police (LAPD); Transportation (LADOT); LADWP (boilerplate)', 'CEC34_54495.pdf'],
@@ -512,7 +495,6 @@ const activityRows = [
   ['Q1 2026', 'Allen Matkins', 'Shatto Emet QOZB LP', '525 S. Virgil (matter 396209.00002)', 26053.50, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_55661.pdf'],
   ['Q1 2026', 'Allen Matkins', 'Hessed Development, Inc.', '3124 W. 6th + 610 & 612 Shatto Place (matter 394409.00002)', 0, 'No Agencies Lobbied', 'CEC34_55661.pdf'],
   ['Q1 2026', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 101005.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_55661.pdf'],
-  ['Q1 2026', 'Allen Matkins', 'Hines Interests LP', '6000 Hollywood Boulevard (matter 390889.00004)', 53668.50, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_55661.pdf'],
   // Q1 2026 Marathon
   ['Q1 2026', 'Marathon', '2727 6th Street LP', '2727 W. 6th Street', 5515.00, 'Neighborhood Councils; Planning City', 'CEC34_55537.pdf'],
   ['Q1 2026', 'Marathon', 'Shatto Emet QOZB LP', '525 S. Virgil Avenue', 2433.51, 'City Council; Neighborhood Councils; Planning City', 'CEC34_55537.pdf'],
@@ -527,7 +509,6 @@ const summaryRows = [
   ['Digital Realty 600 W. 7th Street (LAX10)', 'Digital Realty (5707 Southwest Parkway, Austin TX)', 345994.50, 0, 345994.50, 'Building & Safety; Planning City; Public Works Engineering (same three agencies as Westlake)', 'Q1 2025 - Q1 2026 (5 quarters)'],
   ['Arevon 23320 Alameda (Carson)', 'Arevon (Scottsdale AZ)', 0, 120909.13, 120909.13, 'Mayor; City Council; Harbor (POLA); LADWP - LADWP appears for Arevon in Q2 2025 and Q4 2025 (boilerplate)', 'Q2 2025 - Q1 2026 (4 quarters)'],
   ['Arevon Merlin (no address)', 'Arevon (blanket entitlement vehicle)', 0, 39296.54, 39296.54, 'LADWP (Q1 2025, Kramer + Shapiro per Form 33); No Agencies Lobbied (Q3 2025); boilerplate (Q4 2025)', 'Q1 2025 - Q4 2025'],
-  ['6000 Hollywood Boulevard (Hines)', 'Hines Interests LP - reference data point', 343065.50, 0, 343065.50, 'Building & Safety; Planning City; Public Works Engineering', 'Q1 2025 - Q1 2026 (5 quarters)'],
 ];
 
 // Comparison rows
