@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Westlake Lobbying Analysis</title>
+<script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; color: #222; }
+  header { background: #1f4e78; color: white; padding: 14px 20px; }
+  header h1 { margin: 0 0 4px 0; font-size: 18px; }
+  header p { margin: 0; font-size: 12px; opacity: 0.9; }
+  #tabs { background: #1a3f60; padding: 0 20px; display: flex; gap: 0; }
+  .tab { background: #1a3f60; color: #aac4dd; border: none; padding: 12px 22px; font-size: 13px; cursor: pointer; border-bottom: 3px solid transparent; }
+  .tab:hover { color: white; }
+  .tab.active { background: #f4f4f4; color: #1f4e78; border-bottom: 3px solid #f39c12; font-weight: bold; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  /* Tab 1: Structure Map */
+  #container1 { display: flex; height: calc(100vh - 122px); }
+  #network { flex: 1; background: white; border: 1px solid #ccc; }
+  #sidebar { width: 320px; background: white; border-left: 1px solid #ccc; padding: 16px; overflow-y: auto; font-size: 12px; }
+  #sidebar h2 { font-size: 13px; margin: 0 0 8px 0; color: #1f4e78; text-transform: uppercase; }
+  #sidebar h3 { font-size: 12px; margin: 14px 0 6px 0; color: #1f4e78; text-transform: uppercase; }
+  #details { font-size: 12px; line-height: 1.5; background: #f8f8f8; padding: 10px; border-left: 3px solid #1f4e78; min-height: 80px; }
+  #legend { line-height: 1.7; }
+  .legend-row { display: flex; align-items: center; margin-bottom: 3px; }
+  .swatch { width: 12px; height: 12px; border-radius: 3px; margin-right: 8px; flex-shrink: 0; border: 1px solid #555; }
+  /* Tab 2: Heatmap */
+  #heatmap-wrap { padding: 16px 24px; background: white; min-height: calc(100vh - 122px); }
+  #heatmap-wrap h2 { font-size: 16px; color: #1f4e78; margin: 0 0 6px 0; }
+  #heatmap-wrap p { font-size: 12px; color: #555; margin: 0 0 12px 0; max-width: 1100px; line-height: 1.5; }
+  #heatmap { overflow-x: auto; }
+  table.heatmap { border-collapse: collapse; font-size: 11px; background: white; min-width: 100%; }
+  table.heatmap th, table.heatmap td { border: 1px solid #ddd; padding: 6px 8px; text-align: right; font-variant-numeric: tabular-nums; }
+  table.heatmap th.row-header, table.heatmap td.row-header { text-align: left; background: #1f4e78; color: white; font-weight: bold; min-width: 240px; position: sticky; left: 0; z-index: 2; }
+  table.heatmap th.col-header { background: #1f4e78; color: white; font-weight: bold; min-width: 90px; max-width: 110px; vertical-align: bottom; }
+  table.heatmap th.col-header.ladwp { background: #16a085; }
+  table.heatmap td.zero { background: #f5f5f5; color: #aaa; }
+  table.heatmap tr.category-westlake td.row-header { background: #e74c3c; }
+  table.heatmap tr.category-digital td.row-header { background: #8b0000; }
+  table.heatmap tr.category-arevon td.row-header { background: #27ae60; }
+  table.heatmap tr.category-hines td.row-header { background: #34495e; }
+  table.heatmap tr.hidden-row { display: none; }
+  .row-total { background: #fff8e1 !important; font-weight: bold; }
+  /* Tab 3: Data Tables */
+  #tables-wrap { padding: 16px 24px; background: white; min-height: calc(100vh - 122px); }
+  #tables-wrap h2 { font-size: 16px; color: #1f4e78; margin: 0 0 6px 0; }
+  #tables-wrap h3 { font-size: 14px; color: #1f4e78; margin: 24px 0 8px 0; padding-top: 16px; border-top: 1px solid #ddd; }
+  #tables-wrap p { font-size: 12px; color: #555; margin: 0 0 10px 0; max-width: 1000px; }
+  .controls { margin: 8px 0 12px 0; }
+  .controls button { background: #1f4e78; color: white; border: none; padding: 6px 12px; font-size: 12px; margin-right: 8px; border-radius: 3px; cursor: pointer; }
+  .controls button:hover { background: #2c6ea4; }
+  .controls input { padding: 4px 8px; font-size: 12px; border: 1px solid #aaa; border-radius: 3px; }
+  table.data { width: 100%; border-collapse: collapse; font-size: 11px; background: white; }
+  table.data th { background: #1f4e78; color: white; padding: 6px 8px; text-align: left; cursor: pointer; user-select: none; position: sticky; top: 0; z-index: 1; }
+  table.data th:hover { background: #2c6ea4; }
+  table.data td { padding: 5px 8px; border-bottom: 1px solid #eee; vertical-align: top; }
+  table.data tr:nth-child(even) { background: #fafafa; }
+  table.data tr:hover { background: #fff8e1; }
+  td.right { text-align: right; font-variant-numeric: tabular-nums; }
+  .hidden-dr { display: none !important; }
+  table.compare { width: 100%; border-collapse: collapse; font-size: 12px; background: white; max-width: 1100px; }
+  table.compare th { background: #1f4e78; color: white; padding: 8px 12px; text-align: left; }
+  table.compare th.dr { background: #8b0000; }
+  table.compare td { padding: 8px 12px; border-bottom: 1px solid #eee; vertical-align: top; }
+  table.compare td.dr { background: #fcf0ee; }
+  table.compare td.metric { background: #eef5fb; font-weight: bold; width: 22%; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Westlake Lobbying Analysis</h1>
+  <p>Structure map, dollar flow, and data tables. Sources: LA City Ethics Commission Form 34 quarterlies (Allen Matkins Q1 2025 - Q1 2026; Marathon Communications Q2 2025 - Q1 2026); LA County Assessor APN records.</p>
+</header>
+<div id="tabs">
+  <button class="tab active" onclick="showTab(1)">MAP 1 - Structure</button>
+  <button class="tab" onclick="showTab(2)">MAP 2 - Heatmap (per agency)</button>
+  <button class="tab" onclick="showTab(3)">DATA TABLES</button>
+</div>
+
+<!-- TAB 1 - Structure Network -->
+<div id="tab1" class="tab-content active">
+  <div id="container1">
+    <div id="network"></div>
+    <div id="sidebar">
+      <h2>Structure Map</h2>
+      <p style="font-size: 12px; line-height: 1.5; background: #eef5fb; border-left: 3px solid #1f4e78; padding: 8px;">Five Westlake parcels, three LPs that share the same Houston phone, the legal counsel (Allen Matkins / Kallick), and the political lobbying firm (Marathon Communications).</p>
+      <h2>Click for Details</h2>
+      <div id="details">Click any node to read what it is and how it connects.</div>
+      <h3>Legend</h3>
+      <div id="legend">
+        <div class="legend-row"><span class="swatch" style="background:#f39c12"></span>Westlake parcel</div>
+        <div class="legend-row"><span class="swatch" style="background:#e74c3c"></span>Westlake LP</div>
+        <div class="legend-row"><span class="swatch" style="background:#bdc3c7"></span>Shared phone or address</div>
+        <div class="legend-row"><span class="swatch" style="background:#3498db"></span>Lawyer / Law firm</div>
+        <div class="legend-row"><span class="swatch" style="background:#9b59b6"></span>Lobbying firm</div>
+      </div>
+      <h3>Edges</h3>
+      <div style="font-size: 11px; line-height: 1.6;">
+        Solid arrow: formal relationship (entitles, represents, partner at).<br>
+        Dashed line: shared infrastructure (phone, address).<br>
+        Red arrow: Hessed to Shatto Emet matter transfer in Q3 2025.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 2 - Heatmap -->
+<div id="tab2" class="tab-content">
+  <div id="heatmap-wrap">
+    <h2>Per-Project Per-Agency Spend Heatmap</h2>
+    <p>Each cell shows the cumulative dollars billed for that project where that agency appeared on the lobbying firm's quarterly disclosure. Source: Allen Matkins Form 34 (Q1 2025 - Q1 2026) and Marathon Communications Form 34 (Q2 2025 - Q1 2026). Methodology: for each quarter the agency was listed on the firm's filing for that matter, the full matter fee is added to the agency total. Quarters listed as "No Agencies Lobbied" with a non-zero fee are excluded from any agency cell (footnote at row level).</p>
+    <div class="controls">
+      <span style="font-size: 12px; color: #555; margin-right: 10px;">Hide rows:</span>
+      <button onclick="toggleHeatmapCategory('digital')" id="hm-btn-digital">Hide Digital Realty</button>
+      <button onclick="toggleHeatmapCategory('arevon')" id="hm-btn-arevon">Hide Arevon</button>
+      <button onclick="toggleHeatmapCategory('hines')" id="hm-btn-hines">Hide Hines (reference)</button>
+      <button onclick="toggleHeatmapCategory('westlake')" id="hm-btn-westlake">Hide Westlake</button>
+      <button onclick="resetHeatmap()" style="background: #c0392b;">Reset All</button>
+    </div>
+    <div id="heatmap"></div>
+    <p style="margin-top: 16px; font-size: 11px; color: #555;">
+      <strong>Note on Q4 2025 Marathon entries:</strong> Marathon's Q4 2025 Form 34 listed an identical 10-agency string ("Mayor; City Council; Building &amp; Safety; Fire (LAFD); Harbor (POLA); Neighborhood Councils; Planning, City; Police (LAPD); Transportation (LADOT); Water &amp; Power (DWP)") on every active matter including Academy Museum Gala and several $0-fee clients. This pattern does not appear in Q1 2025, Q2 2025, Q3 2025, or Q1 2026 Marathon filings and is flagged in the data. The dollars Q4 2025 contributes to LADWP and other agencies in the Marathon rows below come from that boilerplate.
+    </p>
+  </div>
+</div>
+
+<!-- TAB 3 - Data Tables -->
+<div id="tab3" class="tab-content">
+  <div id="tables-wrap">
+    <h2>Data Tables</h2>
+    <p>Sortable. Click any column header. Use the search box to filter. Source: Allen Matkins Form 34 (Q1 2025 - Q1 2026) and Marathon Communications Form 34 (Q2 2025 - Q1 2026).</p>
+
+    <h3>1. All Lobbying Activity (firm-level Form 34 entries)</h3>
+    <div class="controls">
+      <input type="text" id="search1" placeholder="Filter all columns..." oninput="filterTable('tbl-activity', this.value)">
+    </div>
+    <div style="max-height: 480px; overflow-y: auto; border: 1px solid #ddd;">
+      <table class="data" id="tbl-activity">
+        <thead>
+          <tr>
+            <th onclick="sortTable('tbl-activity', 0)">Quarter</th>
+            <th onclick="sortTable('tbl-activity', 1)">Firm</th>
+            <th onclick="sortTable('tbl-activity', 2)">Client</th>
+            <th onclick="sortTable('tbl-activity', 3)">Project / Matter</th>
+            <th onclick="sortTable('tbl-activity', 4, 'num')">Fee ($)</th>
+            <th onclick="sortTable('tbl-activity', 5)">Agencies Lobbied</th>
+            <th onclick="sortTable('tbl-activity', 6)">Source PDF</th>
+          </tr>
+        </thead>
+        <tbody id="activity-body"></tbody>
+      </table>
+    </div>
+
+    <h3>2. Project Summary (totals across all quarters)</h3>
+    <div class="controls">
+      <input type="text" id="search2" placeholder="Filter all columns..." oninput="filterTable('tbl-summary', this.value)">
+    </div>
+    <table class="data" id="tbl-summary">
+      <thead>
+        <tr>
+          <th onclick="sortTable('tbl-summary', 0)">Project</th>
+          <th onclick="sortTable('tbl-summary', 1)">Property Owner / LP</th>
+          <th onclick="sortTable('tbl-summary', 2, 'num')">Allen Matkins ($)</th>
+          <th onclick="sortTable('tbl-summary', 3, 'num')">Marathon ($)</th>
+          <th onclick="sortTable('tbl-summary', 4, 'num')">Combined ($)</th>
+          <th onclick="sortTable('tbl-summary', 5)">Agencies Lobbied</th>
+          <th onclick="sortTable('tbl-summary', 6)">Active Quarters</th>
+        </tr>
+      </thead>
+      <tbody id="summary-body"></tbody>
+    </table>
+
+    <h3>3. Westlake vs Digital Realty Comparison</h3>
+    <div class="controls">
+      <button onclick="toggleDR()" id="dr-toggle-btn">Hide Digital Realty Column</button>
+      <span style="font-size: 11px; color: #555;">Click to overlay or hide the downtown data center comparison.</span>
+    </div>
+    <table class="compare" id="compare-table">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Westlake assembly (2727 + 525 + 3124/Shatto Place)</th>
+          <th class="dr">Digital Realty 600 W. 7th Street (LAX10, downtown LA data center)</th>
+        </tr>
+      </thead>
+      <tbody id="compare-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+// =============================================================================
+// MAP 1 - STRUCTURE NETWORK
+// =============================================================================
+const map1Nodes = [
+  { id: 'p_2727', label: '2727 W. 6th\nAPN 5155-019-006', group: 'parcel', shape: 'box', title: '2727 W. 6th Street. Filed as 8-story 200K+ SF storage application.' },
+  { id: 'p_525', label: '525 S. Virgil\nAPN 5077-004-030', group: 'parcel', shape: 'box', title: '525 S. Virgil Avenue. Allen Matkins matter 396209.00002.' },
+  { id: 'p_3124', label: '3124 W. 6th\nAPN 5077-009-009', group: 'parcel', shape: 'box', title: '3124 W. 6th Street. Part of Allen Matkins matter 394409.00002.' },
+  { id: 'p_610', label: '610 Shatto Place\nAPN 5077-009-028', group: 'parcel', shape: 'box', title: '610 Shatto Place. Part of Allen Matkins matter 394409.00002.' },
+  { id: 'p_612', label: '612 Shatto Place\nAPN 5077-009-028', group: 'parcel', shape: 'box', title: '612 Shatto Place. Part of Allen Matkins matter 394409.00002.' },
+  { id: 'lp_2727', label: '2727 6th Street LP', group: 'lp', shape: 'ellipse', title: 'Limited Partnership. Phone 713-771-0188. Listed at 9461 Charleville Boulevard, Suite 740, Beverly Hills, CA 90212. Allen Matkins and Marathon client from Q3 2025.' },
+  { id: 'lp_shatto', label: 'Shatto Emet QOZB LP', group: 'lp', shape: 'ellipse', title: 'Limited Partnership. Phone 713-771-0188. Listed at 2219 Main Street, Suite 260, Santa Monica, CA 90405. Allen Matkins and Marathon client from Q3 2025. Took over the 525 S. Virgil matter from Hessed Development.' },
+  { id: 'lp_hessed', label: 'Hessed Development, Inc.', group: 'lp', shape: 'ellipse', title: 'Limited Partnership. Phone 713-771-0188. Listed at 2219 Main Street, Suite 230, Santa Monica, CA 90405. Allen Matkins client from Q1 2025. Original Westlake acquisition vehicle.' },
+  { id: 'phone_houston', label: 'Houston Phone\n713-771-0188', group: 'shared', shape: 'diamond', title: 'Same phone number on the three Westlake LP filings: 2727 6th Street LP, Shatto Emet QOZB LP, and Hessed Development, Inc.' },
+  { id: 'addr_2219', label: '2219 Main Street\nSanta Monica', group: 'shared', shape: 'diamond', title: 'Hessed Development at Suite 230. Shatto Emet QOZB LP at Suite 260. Same building.' },
+  { id: 'addr_charleville', label: '9461 Charleville\nSTE 740, Beverly Hills', group: 'shared', shape: 'diamond', title: '2727 6th Street LP listed address.' },
+  { id: 'kallick', label: 'Spencer Kallick\nPartner', group: 'lawyer', shape: 'box', title: 'Partner at Allen Matkins. Registered with the LA City Ethics Commission (Form 30 filed January 2, 2026). Represents all three Westlake LPs and Digital Realty.' },
+  { id: 'allen_matkins', label: 'Allen Matkins LLP', group: 'lawfirm', shape: 'box', title: 'Law firm. Approximately $308,699 billed across Westlake matters from Q1 2025 through Q1 2026.' },
+  { id: 'marathon', label: 'Marathon Communications', group: 'lobbyfirm', shape: 'box', title: 'Political lobbying firm. Hired by 2727 6th Street LP and Shatto Emet QOZB LP starting Q2 2025. Approximately $69,825 billed across Westlake matters across four quarters.' },
+];
+const map1Edges = [
+  { from: 'lp_2727', to: 'p_2727', label: 'entitles', arrows: 'to' },
+  { from: 'lp_shatto', to: 'p_525', label: 'entitles', arrows: 'to' },
+  { from: 'lp_hessed', to: 'p_3124', label: 'entitles (matter open, no fee disclosed)', arrows: 'to' },
+  { from: 'lp_hessed', to: 'p_610', label: 'entitles (matter open, no fee disclosed)', arrows: 'to' },
+  { from: 'lp_hessed', to: 'p_612', label: 'entitles (matter open, no fee disclosed)', arrows: 'to' },
+  { from: 'lp_hessed', to: 'lp_shatto', label: '525 S. Virgil matter transferred Q3 2025', arrows: 'to', color: { color: '#c0392b' }, width: 3 },
+  { from: 'lp_2727', to: 'phone_houston', dashes: true, color: { color: '#888' } },
+  { from: 'lp_shatto', to: 'phone_houston', dashes: true, color: { color: '#888' } },
+  { from: 'lp_hessed', to: 'phone_houston', dashes: true, color: { color: '#888' } },
+  { from: 'lp_shatto', to: 'addr_2219', label: 'STE 260', dashes: true, color: { color: '#888' } },
+  { from: 'lp_hessed', to: 'addr_2219', label: 'STE 230', dashes: true, color: { color: '#888' } },
+  { from: 'lp_2727', to: 'addr_charleville', dashes: true, color: { color: '#888' } },
+  { from: 'kallick', to: 'allen_matkins', label: 'partner at', arrows: 'to' },
+  { from: 'allen_matkins', to: 'lp_2727', label: 'represents', arrows: 'to' },
+  { from: 'allen_matkins', to: 'lp_shatto', label: 'represents', arrows: 'to' },
+  { from: 'allen_matkins', to: 'lp_hessed', label: 'represents', arrows: 'to' },
+  { from: 'marathon', to: 'lp_2727', label: 'represents', arrows: 'to' },
+  { from: 'marathon', to: 'lp_shatto', label: 'represents', arrows: 'to' },
+];
+const networkOptions = {
+  nodes: { font: { size: 12, color: '#222' }, borderWidth: 2, margin: 8 },
+  edges: { font: { size: 10, color: '#555', strokeWidth: 0 }, smooth: { type: 'continuous' }, arrows: { to: { scaleFactor: 0.6 } } },
+  groups: {
+    parcel: { color: { background: '#f39c12', border: '#b9770e' }, font: { color: 'white' } },
+    lp: { color: { background: '#e74c3c', border: '#922b21' }, font: { color: 'white' } },
+    shared: { color: { background: '#bdc3c7', border: '#7f8c8d' } },
+    lawyer: { color: { background: '#3498db', border: '#1f618d' }, font: { color: 'white' } },
+    lawfirm: { color: { background: '#5dade2', border: '#1f618d' }, font: { color: 'white' } },
+    lobbyfirm: { color: { background: '#9b59b6', border: '#6c3483' }, font: { color: 'white' } },
+  },
+  physics: { enabled: true, barnesHut: { gravitationalConstant: -7000, springLength: 140, damping: 0.5 }, stabilization: { iterations: 200 } },
+  interaction: { hover: true, tooltipDelay: 200, navigationButtons: true, keyboard: true },
+};
+let network = null;
+function initMap1() {
+  const data = { nodes: new vis.DataSet(map1Nodes), edges: new vis.DataSet(map1Edges) };
+  network = new vis.Network(document.getElementById('network'), data, networkOptions);
+  network.on('click', function(params) {
+    const details = document.getElementById('details');
+    if (params.nodes.length > 0) {
+      const node = data.nodes.get(params.nodes[0]);
+      details.innerHTML = '<strong>' + node.label.replace(/\n/g, ' - ') + '</strong><br><br>' + (node.title || '');
+    } else {
+      details.innerHTML = 'Click any node to read what it is and how it connects.';
+    }
+  });
+}
+
+// =============================================================================
+// MAP 2 - HEATMAP (Per-project per-agency dollar amounts)
+// =============================================================================
+// Cells = cumulative dollars billed where that agency was on the firm's quarterly disclosure for that matter.
+const heatmapAgencies = [
+  'Building & Safety',
+  'Planning, City',
+  'Public Works, Engineering',
+  'Mayor, Office of',
+  'City Council',
+  'Neighborhood Councils',
+  'Fire (LAFD)',
+  'Harbor (POLA)',
+  'Police (LAPD)',
+  'Transportation (LADOT)',
+  'LADWP',
+];
+// Each row: { id, label, firm, category, cells: {agency: dollars}, totalFee, footnote }
+const heatmapRows = [
+  // Westlake — Allen Matkins
+  {
+    id: 'r1', category: 'westlake', label: '2727 W. 6th Street LP',
+    firm: 'Allen Matkins', period: 'Q3 2025 - Q1 2026',
+    totalFee: 118892.43,
+    cells: {
+      'Building & Safety': 118892.43,
+      'Planning, City': 118892.43,
+      'Public Works, Engineering': 118892.43,
+    },
+  },
+  {
+    id: 'r2', category: 'westlake', label: '525 S. Virgil Avenue (Hessed Q1-Q2 2025 + Shatto Emet QOZB LP Q3 2025 - Q1 2026)',
+    firm: 'Allen Matkins', period: 'Q1 2025 - Q1 2026',
+    totalFee: 189807.43,
+    cells: {
+      'Building & Safety': 189807.43,
+      'Planning, City': 189807.43,
+      'Public Works, Engineering': 189807.43,
+    },
+  },
+  {
+    id: 'r3', category: 'westlake', label: '3124 W. 6th + 610 & 612 Shatto Place (Hessed)',
+    firm: 'Allen Matkins', period: 'Q1 2025 - Q1 2026',
+    totalFee: 0,
+    cells: {},
+    footnote: 'Matter 394409.00002 open at Allen Matkins every quarter; "No Agencies Lobbied" and $0 fee disclosed on every Form 34 from Q1 2025 through Q1 2026.',
+  },
+  // Westlake — Marathon
+  {
+    id: 'r4', category: 'westlake', label: '2727 W. 6th Street LP',
+    firm: 'Marathon', period: 'Q2 2025 - Q1 2026',
+    totalFee: 12416.25,
+    cells: {
+      'Mayor, Office of': 2140.00,
+      'City Council': 6901.25,
+      'Neighborhood Councils': 12416.25,
+      'Planning, City': 7655.00,
+      'Building & Safety': 2140.00,
+      'Fire (LAFD)': 2140.00,
+      'Harbor (POLA)': 2140.00,
+      'Police (LAPD)': 2140.00,
+      'Transportation (LADOT)': 2140.00,
+      'LADWP': 2140.00,
+    },
+    footnote: 'Q4 2025 entry ($2,140.00) used identical 10-agency boilerplate; the $2,140 appears in every agency cell for that quarter.',
+  },
+  {
+    id: 'r5', category: 'westlake', label: '525 S. Virgil Avenue (Shatto Emet QOZB LP)',
+    firm: 'Marathon', period: 'Q2 2025 - Q1 2026',
+    totalFee: 57408.89,
+    cells: {
+      'Mayor, Office of': 54975.38,
+      'City Council': 57408.89,
+      'Neighborhood Councils': 57408.89,
+      'Planning, City': 57408.89,
+      'Building & Safety': 42475.38,
+      'Fire (LAFD)': 42475.38,
+      'Harbor (POLA)': 22591.63,
+      'Police (LAPD)': 42475.38,
+      'Transportation (LADOT)': 42475.38,
+      'LADWP': 22591.63,
+    },
+    footnote: 'Q4 2025 entry ($22,591.63) used 10-agency boilerplate; that quarter contributes to every agency cell. Q3 2025 ($19,883.75) listed 8 agencies. Q2 2025 ($12,500) and Q1 2026 ($2,433.51) listed 4 and 3 agencies respectively.',
+  },
+  // Digital Realty
+  {
+    id: 'r6', category: 'digital', label: 'Digital Realty 600 W. 7th Street (LAX10)',
+    firm: 'Allen Matkins', period: 'Q1 2025 - Q1 2026',
+    totalFee: 345994.50,
+    cells: {
+      'Building & Safety': 345994.50,
+      'Planning, City': 345994.50,
+      'Public Works, Engineering': 345994.50,
+    },
+  },
+  // Arevon
+  {
+    id: 'r7', category: 'arevon', label: 'Arevon 23320 Alameda Street (Carson)',
+    firm: 'Marathon', period: 'Q2 2025 - Q1 2026',
+    totalFee: 120909.13,
+    cells: {
+      'Mayor, Office of': 120909.13,
+      'City Council': 120909.13,
+      'Harbor (POLA)': 80909.13,
+      'LADWP': 40549.91,
+      'Building & Safety': 20347.32,
+      'Fire (LAFD)': 60347.32,
+      'Neighborhood Councils': 60347.32,
+      'Planning, City': 60347.32,
+      'Police (LAPD)': 20347.32,
+      'Transportation (LADOT)': 60347.32,
+    },
+    footnote: 'Q4 2025 entry ($20,347.32) used 10-agency boilerplate; that quarter contributes to every agency cell. Q1 2025 Form 33 (Kramer, Shapiro) listed LADWP for Arevon Merlin at the individual lobbyist level - that quarter is not in this Form 34 dataset.',
+  },
+  {
+    id: 'r8', category: 'arevon', label: 'Arevon Merlin (blanket BESS, no address)',
+    firm: 'Marathon', period: 'Q2 2025 - Q4 2025',
+    totalFee: 39296.54,
+    cells: {
+      'Mayor, Office of': 19500.00,
+      'City Council': 19500.00,
+      'Neighborhood Councils': 19500.00,
+      'Planning, City': 19500.00,
+    },
+    footnote: 'Q3 2025 ($19,796.54) listed "No Agencies Lobbied" - those dollars are not attributed to any agency cell. Q4 2025 ($0) listed 10 agencies; $0 contributes nothing.',
+  },
+  // Hines (reference)
+  {
+    id: 'r9', category: 'hines', label: 'Hines Interests LP - 6000 Hollywood (reference)',
+    firm: 'Allen Matkins', period: 'Q1 2025 - Q1 2026',
+    totalFee: 343065.50,
+    cells: {
+      'Building & Safety': 343065.50,
+      'Planning, City': 343065.50,
+      'Public Works, Engineering': 343065.50,
+    },
+  },
+];
+
+const heatmapHiddenCategories = new Set();
+
+function renderHeatmap() {
+  const visibleRows = heatmapRows.filter(r => !heatmapHiddenCategories.has(r.category));
+  const maxValue = Math.max(...visibleRows.flatMap(r => Object.values(r.cells).concat([0])));
+  function colorForValue(v) {
+    if (v === 0 || v === undefined) return null;
+    const intensity = Math.log10(v + 1) / Math.log10(maxValue + 1);
+    const lightness = 95 - intensity * 55;
+    return `hsl(207, 70%, ${lightness}%)`;
+  }
+  let html = '<table class="heatmap"><thead><tr><th class="row-header">Project / Firm / Period</th>';
+  html += '<th class="col-header">Total Matter Fee</th>';
+  heatmapAgencies.forEach(a => {
+    const cls = (a === 'LADWP') ? 'col-header ladwp' : 'col-header';
+    html += `<th class="${cls}">${a}</th>`;
+  });
+  html += '</tr></thead><tbody>';
+  visibleRows.forEach(r => {
+    html += `<tr class="category-${r.category}">`;
+    let labelHtml = `<strong>${r.label}</strong><br><span style="font-weight: normal; font-size: 10px; opacity: 0.85;">${r.firm} - ${r.period}</span>`;
+    if (r.footnote) labelHtml += `<br><span style="font-weight: normal; font-size: 10px; font-style: italic; opacity: 0.75;">${r.footnote}</span>`;
+    html += `<td class="row-header">${labelHtml}</td>`;
+    html += `<td class="row-total">$${r.totalFee.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>`;
+    heatmapAgencies.forEach(a => {
+      const v = r.cells[a] || 0;
+      if (v === 0) {
+        html += `<td class="zero">$0</td>`;
+      } else {
+        const color = colorForValue(v);
+        const text = v > 1000 ? '$' + Math.round(v).toLocaleString('en-US') : '$' + v.toFixed(0);
+        html += `<td style="background:${color}">${text}</td>`;
+      }
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById('heatmap').innerHTML = html;
+  // Update toggle button states
+  ['digital', 'arevon', 'hines', 'westlake'].forEach(cat => {
+    const btn = document.getElementById('hm-btn-' + cat);
+    if (btn) {
+      const isHidden = heatmapHiddenCategories.has(cat);
+      const labelMap = {
+        digital: 'Digital Realty',
+        arevon: 'Arevon',
+        hines: 'Hines (reference)',
+        westlake: 'Westlake',
+      };
+      btn.textContent = (isHidden ? 'Show ' : 'Hide ') + labelMap[cat];
+      btn.style.background = isHidden ? '#7f8c8d' : '#1f4e78';
+    }
+  });
+}
+function toggleHeatmapCategory(cat) {
+  if (heatmapHiddenCategories.has(cat)) heatmapHiddenCategories.delete(cat);
+  else heatmapHiddenCategories.add(cat);
+  renderHeatmap();
+}
+function resetHeatmap() {
+  heatmapHiddenCategories.clear();
+  renderHeatmap();
+}
+
+// =============================================================================
+// TAB 3 - DATA TABLES
+// =============================================================================
+// Activity rows: every Form 34 line item (firm-level) for Westlake matters, Digital Realty, Arevon, Hines (as reference for Allen Matkins scale).
+const activityRows = [
+  // Q1 2025 Allen Matkins
+  ['Q1 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 43838.50, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_51330.pdf'],
+  ['Q1 2025', 'Allen Matkins', 'Hessed Development, Inc.', '525 S. Virgil (matter 396209.00002)', 11108.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_51330.pdf'],
+  ['Q1 2025', 'Allen Matkins', 'Hessed Development, Inc.', '3124 W. 6th + 610 & 612 Shatto Place (matter 394409.00002)', 0, 'No Agencies Lobbied', 'CEC34_51330.pdf'],
+  ['Q1 2025', 'Allen Matkins', 'Hines Interests LP', '6000 Hollywood Boulevard (matter 390889.00004)', 69162.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_51330.pdf'],
+  // Q2 2025 Allen Matkins
+  ['Q2 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 46721.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_52604.pdf'],
+  ['Q2 2025', 'Allen Matkins', 'Hessed Development, Inc.', '525 S. Virgil (matter 396209.00002)', 32245.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_52604.pdf'],
+  ['Q2 2025', 'Allen Matkins', 'Hessed Development, Inc.', '3124 W. 6th + 610 & 612 Shatto Place (matter 394409.00002)', 0, 'No Agencies Lobbied', 'CEC34_52604.pdf'],
+  ['Q2 2025', 'Allen Matkins', 'Hines Interests LP', '6000 Hollywood Boulevard (matter 390889.00004)', 79983.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_52604.pdf'],
+  // Q2 2025 Marathon (first Westlake quarter)
+  ['Q2 2025', 'Marathon', '2727 6th Street LP', '2727 W. 6th Street', 0, 'Mayor; City Council; Neighborhood Councils; Planning City', 'CEC34_52518.pdf'],
+  ['Q2 2025', 'Marathon', 'Shatto Emet QOZB LP', '525 S. Virgil Avenue', 12500.00, 'Mayor; City Council; Neighborhood Councils; Planning City', 'CEC34_52518.pdf'],
+  ['Q2 2025', 'Marathon', 'Arevon', '23320 Alameda Street, Carson', 20202.59, 'Mayor; City Council; Harbor (POLA); LADWP', 'CEC34_52518.pdf'],
+  ['Q2 2025', 'Marathon', 'Arevon', 'Arevon Merlin (no address)', 19500.00, 'Mayor; City Council; Neighborhood Councils; Planning City', 'CEC34_52518.pdf'],
+  // Q3 2025 Allen Matkins
+  ['Q3 2025', 'Allen Matkins', '2727 6th Street LP', '2727 W. 6th Street (matter 396362.00002)', 42846.43, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_53743.pdf'],
+  ['Q3 2025', 'Allen Matkins', 'Shatto Emet QOZB LP', '525 S. Virgil (matter 396209.00002)', 48298.93, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_53743.pdf'],
+  ['Q3 2025', 'Allen Matkins', 'Hessed Development, Inc.', '3124 W. 6th + 610 & 612 Shatto Place (matter 394409.00002)', 0, 'No Agencies Lobbied', 'CEC34_53743.pdf'],
+  ['Q3 2025', 'Allen Matkins', 'Hessed Development, Inc.', '525 S. Virgil (matter 396209.00002)', 0, 'No Agencies Lobbied', 'CEC34_53743.pdf'],
+  ['Q3 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 78955.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_53743.pdf'],
+  ['Q3 2025', 'Allen Matkins', 'Hines Interests LP', '6000 Hollywood Boulevard (matter 390889.00004)', 89417.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_53743.pdf'],
+  // Q3 2025 Marathon
+  ['Q3 2025', 'Marathon', '2727 6th Street LP', '2727 W. 6th Street', 4761.25, 'City Council; Neighborhood Councils', 'CEC34_53466.pdf'],
+  ['Q3 2025', 'Marathon', 'Shatto Emet QOZB LP', '525 S. Virgil Avenue', 19883.75, 'Mayor; City Council; Building & Safety; Fire (LAFD); Neighborhood Councils; Planning City; Police (LAPD); Transportation (LADOT)', 'CEC34_53466.pdf'],
+  ['Q3 2025', 'Marathon', 'Arevon', '23320 Alameda Street, Carson', 40359.22, 'Mayor; City Council; Harbor (POLA)', 'CEC34_53466.pdf'],
+  ['Q3 2025', 'Marathon', 'Arevon', 'Arevon Merlin (no address)', 19796.54, 'No Agencies Lobbied', 'CEC34_53466.pdf'],
+  // Q4 2025 Allen Matkins
+  ['Q4 2025', 'Allen Matkins', '2727 6th Street LP', '2727 W. 6th Street (matter 396362.00002)', 48746.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_54865.pdf'],
+  ['Q4 2025', 'Allen Matkins', 'Shatto Emet QOZB LP', '525 S. Virgil (matter 396209.00002)', 72102.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_54865.pdf'],
+  ['Q4 2025', 'Allen Matkins', 'Hessed Development, Inc.', '525 S. Virgil + 3124/Shatto Place (matters open)', 0, 'No Agencies Lobbied', 'CEC34_54865.pdf'],
+  ['Q4 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 75475.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_54865.pdf'],
+  ['Q4 2025', 'Allen Matkins', 'Hines Interests LP', '6000 Hollywood Boulevard (matter 390889.00004)', 50835.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_54865.pdf'],
+  // Q4 2025 Marathon (boilerplate quarter)
+  ['Q4 2025', 'Marathon', '2727 6th Street LP', '2727 W. 6th Street', 2140.00, 'Mayor; City Council; Building & Safety; Fire (LAFD); Harbor (POLA); Neighborhood Councils; Planning City; Police (LAPD); Transportation (LADOT); LADWP (boilerplate)', 'CEC34_54495.pdf'],
+  ['Q4 2025', 'Marathon', 'Shatto Emet QOZB LP', '525 S. Virgil Avenue', 22591.63, 'Mayor; City Council; Building & Safety; Fire (LAFD); Harbor (POLA); Neighborhood Councils; Planning City; Police (LAPD); Transportation (LADOT); LADWP (boilerplate)', 'CEC34_54495.pdf'],
+  ['Q4 2025', 'Marathon', 'Arevon', '23320 Alameda Street, Carson', 20347.32, 'Mayor; City Council; Building & Safety; Fire (LAFD); Harbor (POLA); Neighborhood Councils; Planning City; Police (LAPD); Transportation (LADOT); LADWP', 'CEC34_54495.pdf'],
+  ['Q4 2025', 'Marathon', 'Arevon', 'Arevon Merlin (no address)', 0, 'same boilerplate as above', 'CEC34_54495.pdf'],
+  // Q1 2026 Allen Matkins
+  ['Q1 2026', 'Allen Matkins', '2727 6th Street LP', '2727 W. 6th Street (matter 396362.00002)', 27300.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_55661.pdf'],
+  ['Q1 2026', 'Allen Matkins', 'Shatto Emet QOZB LP', '525 S. Virgil (matter 396209.00002)', 26053.50, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_55661.pdf'],
+  ['Q1 2026', 'Allen Matkins', 'Hessed Development, Inc.', '3124 W. 6th + 610 & 612 Shatto Place (matter 394409.00002)', 0, 'No Agencies Lobbied', 'CEC34_55661.pdf'],
+  ['Q1 2026', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 101005.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_55661.pdf'],
+  ['Q1 2026', 'Allen Matkins', 'Hines Interests LP', '6000 Hollywood Boulevard (matter 390889.00004)', 53668.50, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_55661.pdf'],
+  // Q1 2026 Marathon
+  ['Q1 2026', 'Marathon', '2727 6th Street LP', '2727 W. 6th Street', 5515.00, 'Neighborhood Councils; Planning City', 'CEC34_55537.pdf'],
+  ['Q1 2026', 'Marathon', 'Shatto Emet QOZB LP', '525 S. Virgil Avenue', 2433.51, 'City Council; Neighborhood Councils; Planning City', 'CEC34_55537.pdf'],
+  ['Q1 2026', 'Marathon', 'Arevon', '23320 Alameda Street, Carson', 40000.00, 'Mayor; City Council; Fire (LAFD); Neighborhood Councils; Planning City; Transportation (LADOT)', 'CEC34_55537.pdf'],
+];
+
+// Project summary rows
+const summaryRows = [
+  ['2727 W. 6th Street', '2727 6th Street LP', 118892.43, 12416.25, 131308.68, 'Building & Safety; Planning City; Public Works Engineering (Allen Matkins). Mayor; City Council; Neighborhood Councils; Planning City (Marathon). Q4 2025 Marathon entry adds 6 more agencies (boilerplate).', 'Q3 2025 - Q1 2026 (3 quarters)'],
+  ['525 S. Virgil Avenue', 'Shatto Emet QOZB LP (was Hessed Q1-Q2 2025)', 189807.43, 57408.89, 247216.32, 'Building & Safety; Planning City; Public Works Engineering (Allen Matkins). Mayor; City Council; Building & Safety; Fire (LAFD); Neighborhood Councils; Planning City; Police (LAPD); Transportation (LADOT) (Marathon). Q4 2025 Marathon entry adds LADWP and Harbor (boilerplate).', 'Q1 2025 - Q1 2026 (5 quarters)'],
+  ['3124 W. 6th + 610 & 612 Shatto Place', 'Hessed Development, Inc.', 0, 0, 0, 'No Agencies Lobbied. Matter 394409.00002 open at Allen Matkins; no agency lobbying or fee disclosed across any of 5 quarters.', 'Q1 2025 - Q1 2026 (matter open, no activity)'],
+  ['Digital Realty 600 W. 7th Street (LAX10)', 'Digital Realty (5707 Southwest Parkway, Austin TX)', 345994.50, 0, 345994.50, 'Building & Safety; Planning City; Public Works Engineering (same three agencies as Westlake)', 'Q1 2025 - Q1 2026 (5 quarters)'],
+  ['Arevon 23320 Alameda (Carson)', 'Arevon (Scottsdale AZ)', 0, 120909.13, 120909.13, 'Mayor; City Council; Harbor (POLA); LADWP - LADWP appears for Arevon in Q2 2025 and Q4 2025 (boilerplate)', 'Q2 2025 - Q1 2026 (4 quarters)'],
+  ['Arevon Merlin (no address)', 'Arevon (blanket entitlement vehicle)', 0, 39296.54, 39296.54, 'LADWP (Q1 2025, Kramer + Shapiro per Form 33); No Agencies Lobbied (Q3 2025); boilerplate (Q4 2025)', 'Q1 2025 - Q4 2025'],
+  ['6000 Hollywood Boulevard (Hines)', 'Hines Interests LP - reference data point', 343065.50, 0, 343065.50, 'Building & Safety; Planning City; Public Works Engineering', 'Q1 2025 - Q1 2026 (5 quarters)'],
+];
+
+// Comparison rows
+const compareRows = [
+  ['Project type filed', '8-story 200K+ SF storage', 'Operating 7-story 27 MW data center (existing LAX10 facility)'],
+  ['Allen Matkins fees Q1 2025 - Q1 2026', '$308,699.86 (2727 + 525 + Hessed)', '$345,994.50 (Digital Realty 600 W. 7th)'],
+  ['Marathon fees Q1 2025 - Q1 2026', '$69,825.14 (2727 + 525)', 'n/a (Marathon does not represent Digital Realty)'],
+  ['Combined firm spend', '$378,525.00', '$345,994.50'],
+  ['Number of quarters active', '2727: 3 quarters (Q3 2025 - Q1 2026). 525 S. Virgil: 5 quarters continuous (Q1 2025 Hessed, then Shatto Emet QOZB LP Q3 2025+).', '5 quarters continuous (Q1 2025 - Q1 2026)'],
+  ['Agencies Kallick lobbied (per his Form 33)', 'Building & Safety; Planning City; Public Works Engineering', 'Building & Safety; Planning City; Public Works Engineering'],
+  ['Applicant LP / SPV structure', 'Three LPs (2727 6th Street LP, Shatto Emet QOZB LP, Hessed Development) share Houston phone 713-771-0188', 'GIP 7th Street, LLC is the applicant SPV on Digital Realty\'s adjacent new build at 727 S. Grand (LAX13). Pattern of operator behind SPV is the same.'],
+  ['CEQA pathway', 'Class 32 categorical exemption claimed for 2727', 'Full Environmental Impact Report being prepared by the City for the 727 S. Grand new build'],
+  ['Political lobbyist', 'Marathon Communications', 'Not retained for the 600 W. 7th matter on the public record'],
+  ['Activity expenses / political contributions / fundraising on Form 33 (Kallick)', '$0 across all quarters', '$0 across all quarters'],
+];
+
+function renderActivityTable() {
+  const tbody = document.getElementById('activity-body');
+  tbody.innerHTML = activityRows.map(r => {
+    return '<tr>' +
+      `<td>${r[0]}</td>` +
+      `<td>${r[1]}</td>` +
+      `<td>${r[2]}</td>` +
+      `<td>${r[3]}</td>` +
+      `<td class="right">${r[4] === 0 ? '$0.00' : '$' + r[4].toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>` +
+      `<td>${r[5]}</td>` +
+      `<td>${r[6]}</td>` +
+    '</tr>';
+  }).join('');
+}
+function renderSummaryTable() {
+  const tbody = document.getElementById('summary-body');
+  tbody.innerHTML = summaryRows.map(r => {
+    return '<tr>' +
+      `<td>${r[0]}</td>` +
+      `<td>${r[1]}</td>` +
+      `<td class="right">${r[2] === 0 ? '$0.00' : '$' + r[2].toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>` +
+      `<td class="right">${r[3] === 0 ? '$0.00' : '$' + r[3].toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>` +
+      `<td class="right">${r[4] === 0 ? '$0.00' : '$' + r[4].toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>` +
+      `<td>${r[5]}</td>` +
+      `<td>${r[6]}</td>` +
+    '</tr>';
+  }).join('');
+}
+function renderCompareTable() {
+  const tbody = document.getElementById('compare-body');
+  tbody.innerHTML = compareRows.map(r => {
+    return '<tr>' +
+      `<td class="metric">${r[0]}</td>` +
+      `<td>${r[1]}</td>` +
+      `<td class="dr">${r[2]}</td>` +
+    '</tr>';
+  }).join('');
+}
+function sortTable(tableId, col, type) {
+  const table = document.getElementById(tableId);
+  const tbody = table.tBodies[0];
+  const rows = Array.from(tbody.rows);
+  const dir = table.dataset.sortCol == col && table.dataset.sortDir == 'asc' ? 'desc' : 'asc';
+  rows.sort((a, b) => {
+    let av = a.cells[col].textContent.trim();
+    let bv = b.cells[col].textContent.trim();
+    if (type === 'num') {
+      av = parseFloat(av.replace(/[$,]/g, '')) || 0;
+      bv = parseFloat(bv.replace(/[$,]/g, '')) || 0;
+      return dir === 'asc' ? av - bv : bv - av;
+    }
+    return dir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av);
+  });
+  rows.forEach(r => tbody.appendChild(r));
+  table.dataset.sortCol = col;
+  table.dataset.sortDir = dir;
+}
+function filterTable(tableId, query) {
+  const q = query.toLowerCase();
+  const tbody = document.getElementById(tableId).tBodies[0];
+  Array.from(tbody.rows).forEach(r => {
+    const text = r.textContent.toLowerCase();
+    r.style.display = text.includes(q) ? '' : 'none';
+  });
+}
+function toggleDR() {
+  const table = document.getElementById('compare-table');
+  const btn = document.getElementById('dr-toggle-btn');
+  const drCols = table.querySelectorAll('.dr');
+  const hidden = drCols[0].classList.contains('hidden-dr');
+  drCols.forEach(c => c.classList.toggle('hidden-dr'));
+  btn.textContent = hidden ? 'Hide Digital Realty Column' : 'Show Digital Realty Column';
+}
+
+// =============================================================================
+// TAB SWITCHING
+// =============================================================================
+let map1Initialized = false;
+let heatmapInitialized = false;
+let tablesInitialized = false;
+function showTab(n) {
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === n - 1));
+  document.querySelectorAll('.tab-content').forEach((c, i) => c.classList.toggle('active', i === n - 1));
+  if (n === 1 && !map1Initialized) { initMap1(); map1Initialized = true; }
+  if (n === 2 && !heatmapInitialized) { renderHeatmap(); heatmapInitialized = true; }
+  if (n === 3 && !tablesInitialized) { renderActivityTable(); renderSummaryTable(); renderCompareTable(); tablesInitialized = true; }
+}
+showTab(1);
+</script>
+</body>
+</html>
