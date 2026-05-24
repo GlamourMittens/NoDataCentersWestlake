@@ -73,7 +73,7 @@
 <body>
 <header>
   <h1>Westlake Lobbying Analysis</h1>
-  <p>Structure map, dollar flow, and data tables. Sources: LA City Ethics Commission Form 34 quarterlies (Allen Matkins Q1 2025 - Q1 2026; Marathon Communications Q2 2025 - Q1 2026); LA County Assessor APN records.</p>
+  <p>Two Westlake parcels (2727 W. 6th Street and 525 S. Virgil Avenue). Sources: LA City Ethics Commission Form 34 quarterlies (Allen Matkins Q1 2025 - Q1 2026; Marathon Communications Q2 2025 - Q1 2026); LA County Assessor APN records.</p>
 </header>
 <div id="tabs">
   <button class="tab active" onclick="showTab(1)">MAP 1 - Structure</button>
@@ -87,7 +87,7 @@
     <div id="network"></div>
     <div id="sidebar">
       <h2>Structure Map</h2>
-      <p style="font-size: 12px; line-height: 1.5; background: #eef5fb; border-left: 3px solid #1f4e78; padding: 8px;">Five Westlake parcels, three LPs that share the same Houston phone, the legal counsel (Allen Matkins / Kallick), and the political lobbying firm (Marathon Communications).</p>
+      <p style="font-size: 12px; line-height: 1.5; background: #eef5fb; border-left: 3px solid #1f4e78; padding: 8px;">Two Westlake parcels (2727 W. 6th + 525 S. Virgil), three LPs that share the same Houston phone, the legal counsel (Allen Matkins / Kallick), and the political lobbying firm (Marathon Communications).</p>
       <h2>Click for Details</h2>
       <div id="details">Click any node to read what it is and how it connects.</div>
       <h3>Legend</h3>
@@ -182,7 +182,7 @@
       <thead>
         <tr>
           <th>Metric</th>
-          <th>Westlake assembly (2727 + 525 + 3124/Shatto Place)</th>
+          <th>Westlake assembly (2727 W. 6th + 525 S. Virgil)</th>
           <th class="dr">Digital Realty 600 W. 7th Street (LAX10, downtown LA data center)</th>
         </tr>
       </thead>
@@ -198,9 +198,6 @@
 const map1Nodes = [
   { id: 'p_2727', label: '2727 W. 6th\nAPN 5155-019-006', group: 'parcel', shape: 'box', title: '2727 W. 6th Street. Filed as 8-story 200K+ SF storage application.' },
   { id: 'p_525', label: '525 S. Virgil\nAPN 5077-004-030', group: 'parcel', shape: 'box', title: '525 S. Virgil Avenue. Allen Matkins matter 396209.00002.' },
-  { id: 'p_3124', label: '3124 W. 6th\nAPN 5077-009-009', group: 'parcel', shape: 'box', title: '3124 W. 6th Street. Part of Allen Matkins matter 394409.00002.' },
-  { id: 'p_610', label: '610 Shatto Place\nAPN 5077-009-028', group: 'parcel', shape: 'box', title: '610 Shatto Place. Part of Allen Matkins matter 394409.00002.' },
-  { id: 'p_612', label: '612 Shatto Place\nAPN 5077-009-028', group: 'parcel', shape: 'box', title: '612 Shatto Place. Part of Allen Matkins matter 394409.00002.' },
   { id: 'lp_2727', label: '2727 6th Street LP', group: 'lp', shape: 'ellipse', title: 'Limited Partnership. Phone 713-771-0188. Listed at 9461 Charleville Boulevard, Suite 740, Beverly Hills, CA 90212. Allen Matkins and Marathon client from Q3 2025.' },
   { id: 'lp_shatto', label: 'Shatto Emet QOZB LP', group: 'lp', shape: 'ellipse', title: 'Limited Partnership. Phone 713-771-0188. Listed at 2219 Main Street, Suite 260, Santa Monica, CA 90405. Allen Matkins and Marathon client from Q3 2025. Took over the 525 S. Virgil matter from Hessed Development.' },
   { id: 'lp_hessed', label: 'Hessed Development, Inc.', group: 'lp', shape: 'ellipse', title: 'Limited Partnership. Phone 713-771-0188. Listed at 2219 Main Street, Suite 230, Santa Monica, CA 90405. Allen Matkins client from Q1 2025. Original Westlake acquisition vehicle.' },
@@ -214,9 +211,7 @@ const map1Nodes = [
 const map1Edges = [
   { from: 'lp_2727', to: 'p_2727', label: 'entitles', arrows: 'to' },
   { from: 'lp_shatto', to: 'p_525', label: 'entitles', arrows: 'to' },
-  { from: 'lp_hessed', to: 'p_3124', label: 'entitles (matter open, no fee disclosed)', arrows: 'to' },
-  { from: 'lp_hessed', to: 'p_610', label: 'entitles (matter open, no fee disclosed)', arrows: 'to' },
-  { from: 'lp_hessed', to: 'p_612', label: 'entitles (matter open, no fee disclosed)', arrows: 'to' },
+  { from: 'lp_hessed', to: 'p_525', label: 'entitled Q1-Q2 2025 (transferred to Shatto Emet Q3 2025)', arrows: 'to', dashes: true },
   { from: 'lp_hessed', to: 'lp_shatto', label: '525 S. Virgil matter transferred Q3 2025', arrows: 'to', color: { color: '#c0392b' }, width: 3 },
   { from: 'lp_2727', to: 'phone_houston', dashes: true, color: { color: '#888' } },
   { from: 'lp_shatto', to: 'phone_houston', dashes: true, color: { color: '#888' } },
@@ -299,13 +294,6 @@ const heatmapRows = [
       'Planning, City': 189807.43,
       'Public Works, Engineering': 189807.43,
     },
-  },
-  {
-    id: 'r3', category: 'westlake', label: '3124 W. 6th + 610 & 612 Shatto Place (Hessed)',
-    firm: 'Allen Matkins', period: 'Q1 2025 - Q1 2026',
-    totalFee: 0,
-    cells: {},
-    footnote: 'Matter 394409.00002 open at Allen Matkins every quarter; "No Agencies Lobbied" and $0 fee disclosed on every Form 34 from Q1 2025 through Q1 2026.',
   },
   // Westlake — Marathon
   {
@@ -459,11 +447,9 @@ const activityRows = [
   // Q1 2025 Allen Matkins
   ['Q1 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 43838.50, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_51330.pdf'],
   ['Q1 2025', 'Allen Matkins', 'Hessed Development, Inc.', '525 S. Virgil (matter 396209.00002)', 11108.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_51330.pdf'],
-  ['Q1 2025', 'Allen Matkins', 'Hessed Development, Inc.', '3124 W. 6th + 610 & 612 Shatto Place (matter 394409.00002)', 0, 'No Agencies Lobbied', 'CEC34_51330.pdf'],
   // Q2 2025 Allen Matkins
   ['Q2 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 46721.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_52604.pdf'],
   ['Q2 2025', 'Allen Matkins', 'Hessed Development, Inc.', '525 S. Virgil (matter 396209.00002)', 32245.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_52604.pdf'],
-  ['Q2 2025', 'Allen Matkins', 'Hessed Development, Inc.', '3124 W. 6th + 610 & 612 Shatto Place (matter 394409.00002)', 0, 'No Agencies Lobbied', 'CEC34_52604.pdf'],
   // Q2 2025 Marathon (first Westlake quarter)
   ['Q2 2025', 'Marathon', '2727 6th Street LP', '2727 W. 6th Street', 0, 'Mayor; City Council; Neighborhood Councils; Planning City', 'CEC34_52518.pdf'],
   ['Q2 2025', 'Marathon', 'Shatto Emet QOZB LP', '525 S. Virgil Avenue', 12500.00, 'Mayor; City Council; Neighborhood Councils; Planning City', 'CEC34_52518.pdf'],
@@ -472,7 +458,6 @@ const activityRows = [
   // Q3 2025 Allen Matkins
   ['Q3 2025', 'Allen Matkins', '2727 6th Street LP', '2727 W. 6th Street (matter 396362.00002)', 42846.43, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_53743.pdf'],
   ['Q3 2025', 'Allen Matkins', 'Shatto Emet QOZB LP', '525 S. Virgil (matter 396209.00002)', 48298.93, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_53743.pdf'],
-  ['Q3 2025', 'Allen Matkins', 'Hessed Development, Inc.', '3124 W. 6th + 610 & 612 Shatto Place (matter 394409.00002)', 0, 'No Agencies Lobbied', 'CEC34_53743.pdf'],
   ['Q3 2025', 'Allen Matkins', 'Hessed Development, Inc.', '525 S. Virgil (matter 396209.00002)', 0, 'No Agencies Lobbied', 'CEC34_53743.pdf'],
   ['Q3 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 78955.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_53743.pdf'],
   // Q3 2025 Marathon
@@ -483,7 +468,6 @@ const activityRows = [
   // Q4 2025 Allen Matkins
   ['Q4 2025', 'Allen Matkins', '2727 6th Street LP', '2727 W. 6th Street (matter 396362.00002)', 48746.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_54865.pdf'],
   ['Q4 2025', 'Allen Matkins', 'Shatto Emet QOZB LP', '525 S. Virgil (matter 396209.00002)', 72102.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_54865.pdf'],
-  ['Q4 2025', 'Allen Matkins', 'Hessed Development, Inc.', '525 S. Virgil + 3124/Shatto Place (matters open)', 0, 'No Agencies Lobbied', 'CEC34_54865.pdf'],
   ['Q4 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 75475.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_54865.pdf'],
   // Q4 2025 Marathon (boilerplate quarter)
   ['Q4 2025', 'Marathon', '2727 6th Street LP', '2727 W. 6th Street', 2140.00, 'Mayor; City Council; Building & Safety; Fire (LAFD); Harbor (POLA); Neighborhood Councils; Planning City; Police (LAPD); Transportation (LADOT); LADWP (boilerplate)', 'CEC34_54495.pdf'],
@@ -493,7 +477,6 @@ const activityRows = [
   // Q1 2026 Allen Matkins
   ['Q1 2026', 'Allen Matkins', '2727 6th Street LP', '2727 W. 6th Street (matter 396362.00002)', 27300.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_55661.pdf'],
   ['Q1 2026', 'Allen Matkins', 'Shatto Emet QOZB LP', '525 S. Virgil (matter 396209.00002)', 26053.50, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_55661.pdf'],
-  ['Q1 2026', 'Allen Matkins', 'Hessed Development, Inc.', '3124 W. 6th + 610 & 612 Shatto Place (matter 394409.00002)', 0, 'No Agencies Lobbied', 'CEC34_55661.pdf'],
   ['Q1 2026', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 101005.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_55661.pdf'],
   // Q1 2026 Marathon
   ['Q1 2026', 'Marathon', '2727 6th Street LP', '2727 W. 6th Street', 5515.00, 'Neighborhood Councils; Planning City', 'CEC34_55537.pdf'],
@@ -505,7 +488,6 @@ const activityRows = [
 const summaryRows = [
   ['2727 W. 6th Street', '2727 6th Street LP', 118892.43, 12416.25, 131308.68, 'Building & Safety; Planning City; Public Works Engineering (Allen Matkins). Mayor; City Council; Neighborhood Councils; Planning City (Marathon). Q4 2025 Marathon entry adds 6 more agencies (boilerplate).', 'Q3 2025 - Q1 2026 (3 quarters)'],
   ['525 S. Virgil Avenue', 'Shatto Emet QOZB LP (was Hessed Q1-Q2 2025)', 189807.43, 57408.89, 247216.32, 'Building & Safety; Planning City; Public Works Engineering (Allen Matkins). Mayor; City Council; Building & Safety; Fire (LAFD); Neighborhood Councils; Planning City; Police (LAPD); Transportation (LADOT) (Marathon). Q4 2025 Marathon entry adds LADWP and Harbor (boilerplate).', 'Q1 2025 - Q1 2026 (5 quarters)'],
-  ['3124 W. 6th + 610 & 612 Shatto Place', 'Hessed Development, Inc.', 0, 0, 0, 'No Agencies Lobbied. Matter 394409.00002 open at Allen Matkins; no agency lobbying or fee disclosed across any of 5 quarters.', 'Q1 2025 - Q1 2026 (matter open, no activity)'],
   ['Digital Realty 600 W. 7th Street (LAX10)', 'Digital Realty (5707 Southwest Parkway, Austin TX)', 345994.50, 0, 345994.50, 'Building & Safety; Planning City; Public Works Engineering (same three agencies as Westlake)', 'Q1 2025 - Q1 2026 (5 quarters)'],
   ['Arevon 23320 Alameda (Carson)', 'Arevon (Scottsdale AZ)', 0, 120909.13, 120909.13, 'Mayor; City Council; Harbor (POLA); LADWP - LADWP appears for Arevon in Q2 2025 and Q4 2025 (boilerplate)', 'Q2 2025 - Q1 2026 (4 quarters)'],
   ['Arevon Merlin (no address)', 'Arevon (blanket entitlement vehicle)', 0, 39296.54, 39296.54, 'LADWP (Q1 2025, Kramer + Shapiro per Form 33); No Agencies Lobbied (Q3 2025); boilerplate (Q4 2025)', 'Q1 2025 - Q4 2025'],
@@ -514,8 +496,8 @@ const summaryRows = [
 // Comparison rows
 const compareRows = [
   ['Project type filed', '8-story 200K+ SF storage', 'Operating 7-story 27 MW data center (existing LAX10 facility)'],
-  ['Allen Matkins fees Q1 2025 - Q1 2026', '$308,699.86 (2727 + 525 + Hessed)', '$345,994.50 (Digital Realty 600 W. 7th)'],
-  ['Marathon fees Q1 2025 - Q1 2026', '$69,825.14 (2727 + 525)', 'n/a (Marathon does not represent Digital Realty)'],
+  ['Allen Matkins fees Q1 2025 - Q1 2026', '$308,699.86 (2727 W. 6th + 525 S. Virgil; includes Hessed Q1-Q2 2025 as the original 525 S. Virgil client before Shatto Emet QOZB LP took over Q3 2025)', '$345,994.50 (Digital Realty 600 W. 7th)'],
+  ['Marathon fees Q1 2025 - Q1 2026', '$69,825.14 (2727 W. 6th + 525 S. Virgil)', 'n/a (Marathon does not represent Digital Realty)'],
   ['Combined firm spend', '$378,525.00', '$345,994.50'],
   ['Number of quarters active', '2727: 3 quarters (Q3 2025 - Q1 2026). 525 S. Virgil: 5 quarters continuous (Q1 2025 Hessed, then Shatto Emet QOZB LP Q3 2025+).', '5 quarters continuous (Q1 2025 - Q1 2026)'],
   ['Agencies Kallick lobbied (per his Form 33)', 'Building & Safety; Planning City; Public Works Engineering', 'Building & Safety; Planning City; Public Works Engineering'],
