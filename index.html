@@ -160,6 +160,11 @@
 <div id="tab2" class="tab-content">
   <div id="heatmap-wrap">
     <h2>Spending</h2>
+    <div style="font-size: 12px; line-height: 1.5; background: #eef5fb; border-left: 3px solid #1f4e78; padding: 8px; margin-bottom: 12px; max-width: 1100px;">
+      <p style="margin: 0 0 8px 0;">This table shows the agencies Allen Matkins LLP and Marathon Communications Inc. reported lobbying for each client, drawn from each firm's quarterly Form 34 filings with the LA City Ethics Commission from Q1 2025 through Q1 2026.</p>
+      <p style="margin: 0 0 8px 0;">The Allen Matkins rows list three agencies for every client: Building &amp; Safety, Planning, and Public Works Engineering. The list is identical for the Digital Realty LAX10 data center at 600 W. 7th Street, 525 S. Virgil Avenue, and 2727 W. 6th Street.</p>
+      <p style="margin: 0;">The Marathon Communications rows list Mayor, City Council, Neighborhood Councils, and Planning for Arevon Merlin, 525 S. Virgil Avenue, and 2727 W. 6th Street. In its Q4 2025 Form 34, Marathon also lists Building &amp; Safety, Fire (LAFD), Harbor (POLA), Police (LAPD), Transportation (LADOT), and Water &amp; Power (LADWP) on every active client. Richard Lichtenstein, Marathon's Founder and President, signed the Q4 2025 Form 34 on January 31, 2026.</p>
+    </div>
     <div class="controls">
       <span style="font-size: 12px; color: #555; margin-right: 10px;">Hide rows:</span>
       <button onclick="toggleHeatmapCategory('digital')" id="hm-btn-digital">Hide Digital Realty</button>
@@ -168,8 +173,8 @@
       <button onclick="resetHeatmap()" style="background: #c0392b;">Reset All</button>
     </div>
     <div id="heatmap"></div>
-    <p style="margin-top: 16px; font-size: 11px; color: #555;">
-      <strong>Note on Q4 2025 Marathon entries:</strong> Marathon's Q4 2025 Form 34 listed an identical 10-agency string ("Mayor; City Council; Building &amp; Safety; Fire (LAFD); Harbor (POLA); Neighborhood Councils; Planning, City; Police (LAPD); Transportation (LADOT); Water &amp; Power (DWP)") on every active matter including Academy Museum Gala and several $0-fee clients. This pattern does not appear in Q1 2025, Q2 2025, Q3 2025, or Q1 2026 Marathon filings and is flagged in the data. The dollars Q4 2025 contributes to LADWP and other agencies in the Marathon rows below come from that boilerplate.
+    <p style="margin-top: 12px; font-size: 11px; color: #555; max-width: 1100px; line-height: 1.5;">
+      The per-cell dollar amounts are each client's total quarterly fee divided equally across all agencies the firm listed on its Form 34. The amounts are an arithmetic split, not a measurement of money spent lobbying any specific agency. The Total Fee column shows the total quarterly fees reported on the filings.
     </p>
   </div>
 </div>
