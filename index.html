@@ -68,6 +68,38 @@
   table.compare td { padding: 8px 12px; border-bottom: 1px solid #eee; vertical-align: top; }
   table.compare td.dr { background: #fcf0ee; }
   table.compare td.metric { background: #eef5fb; font-weight: bold; width: 22%; }
+  /* Tab 4: Timeline & Data Pipeline */
+  #timeline-wrap { padding: 16px 24px; background: white; min-height: calc(100vh - 122px); }
+  #timeline-wrap h2 { font-size: 16px; color: #1f4e78; margin: 0 0 6px 0; }
+  #timeline-wrap h3 { font-size: 14px; color: #1f4e78; margin: 22px 0 10px 0; padding-top: 14px; border-top: 1px solid #ddd; }
+  #timeline-wrap p { font-size: 12px; color: #555; margin: 0 0 12px 0; max-width: 1100px; line-height: 1.5; }
+  .pipeline-diagram { display: flex; align-items: stretch; gap: 0; margin: 12px 0 20px 0; overflow-x: auto; background: #fafafa; padding: 14px; border: 1px solid #ddd; }
+  .pipeline-node { flex: 1; min-width: 130px; padding: 10px 12px; font-size: 11px; color: white; position: relative; }
+  .pipeline-node h4 { margin: 0 0 4px 0; font-size: 12px; }
+  .pipeline-node .meta { font-size: 10px; opacity: 0.85; line-height: 1.4; }
+  .pipeline-node:not(:last-child)::after { content: ''; position: absolute; right: -10px; top: 50%; width: 0; height: 0; border-left: 10px solid currentColor; border-top: 10px solid transparent; border-bottom: 10px solid transparent; z-index: 1; }
+  .pipeline-n1 { background: #8b0000; color: #8b0000; }
+  .pipeline-n2 { background: #c0392b; color: #c0392b; }
+  .pipeline-n3 { background: #d35400; color: #d35400; }
+  .pipeline-n4 { background: #f39c12; color: #f39c12; }
+  .pipeline-n5 { background: #16a085; color: #16a085; }
+  .pipeline-n6 { background: #1f4e78; color: #1f4e78; }
+  .pipeline-node h4, .pipeline-node .meta { color: white; }
+  table.timeline { width: 100%; border-collapse: collapse; font-size: 12px; background: white; margin-bottom: 16px; }
+  table.timeline th { background: #1f4e78; color: white; padding: 8px 10px; text-align: left; }
+  table.timeline th.lobbying { background: #1f4e78; }
+  table.timeline th.cable { background: #16a085; }
+  table.timeline td { padding: 7px 10px; border-bottom: 1px solid #eee; vertical-align: top; line-height: 1.45; }
+  table.timeline tr:nth-child(even) { background: #fafafa; }
+  table.timeline td.date { white-space: nowrap; font-weight: bold; color: #1f4e78; min-width: 95px; }
+  table.timeline td.lane { width: 90px; font-weight: bold; font-size: 11px; text-transform: uppercase; }
+  table.timeline td.lane-lobby { color: #1f618d; }
+  table.timeline td.lane-cable { color: #117864; }
+  table.timeline td.lane-property { color: #922b21; }
+  table.timeline td.source { font-size: 10px; color: #777; max-width: 200px; }
+  .legend-timeline { display: flex; gap: 24px; margin: 6px 0 12px 0; font-size: 11px; color: #555; }
+  .legend-timeline .item { display: flex; align-items: center; gap: 6px; }
+  .legend-timeline .dot { width: 12px; height: 12px; border-radius: 50%; }
 </style>
 </head>
 <body>
@@ -76,9 +108,10 @@
   <p>Two Westlake parcels (2727 W. 6th Street and 525 S. Virgil Avenue). Sources: LA City Ethics Commission Form 34 quarterlies (Allen Matkins Q1 2025 - Q1 2026; Marathon Communications Q2 2025 - Q1 2026); LA County Assessor APN records.</p>
 </header>
 <div id="tabs">
-  <button class="tab active" onclick="showTab(1)">MAP 1 - Structure</button>
-  <button class="tab" onclick="showTab(2)">MAP 2 - Heatmap (per agency)</button>
+  <button class="tab active" onclick="showTab(1)">Corporate Ties</button>
+  <button class="tab" onclick="showTab(2)">Spending</button>
   <button class="tab" onclick="showTab(3)">DATA TABLES</button>
+  <button class="tab" onclick="showTab(4)">Timeline</button>
 </div>
 
 <!-- TAB 1 - Structure Network -->
@@ -86,23 +119,38 @@
   <div id="container1">
     <div id="network"></div>
     <div id="sidebar">
-      <h2>Structure Map</h2>
-      <p style="font-size: 12px; line-height: 1.5; background: #eef5fb; border-left: 3px solid #1f4e78; padding: 8px;">Two Westlake parcels (2727 W. 6th + 525 S. Virgil), three LPs that share the same Houston phone, the legal counsel (Allen Matkins / Kallick), and the political lobbying firm (Marathon Communications).</p>
+      <h2>Same Team, Two Data Centers, One Pipeline, Five Parcels</h2>
+      <div style="font-size: 12px; line-height: 1.5; background: #eef5fb; border-left: 3px solid #1f4e78; padding: 8px;">
+        <p style="margin: 0 0 8px 0;">Five Westlake properties share the same law firm, Allen Matkins, and the same lobbying firm, Marathon Communications.</p>
+        <p style="margin: 0 0 8px 0;">Allen Matkins handles a data center at 600 W. 7th Street for Digital Realty (LAX10) and a planned data center at 727 S. Grand. They're a commercial real estate law firm with 14 registered lobbyists, currently expanding their data center clients and data center team.</p>
+        <p style="margin: 0 0 8px 0;">Marathon Communications is paid by<br>
+        <a href="https://www.marathon-com.com/teamdescriptions" target="_blank" rel="noopener">NextEra Energy</a>, the largest supplier of data center power in the US;<br>
+        <a href="https://www.marathon-com.com/teamdescriptions" target="_blank" rel="noopener">Bechtel Corporation</a>, which builds data centers and the power plants that run them; and<br>
+        <a href="https://ethics.lacity.gov/disclosure/lobbying/" target="_blank" rel="noopener">Arevon</a>, an energy company that supplies data centers with their electricity.</p>
+        <p style="margin: 0 0 8px 0;">M Strategic Communications &mdash; also paid by Digital Realty &mdash; has been lobbying for the transpacific data-line pipeline that connects downtown to the Pacific. When complete, the pipeline would have the capacity to support a cluster of data centers larger than any in the world. Ten to thirty times the output of Las Vegas.</p>
+        <p style="margin: 0 0 8px 0;">The end client, who owns all five Westlake properties that sit on the pipeline, remains undisclosed.</p>
+        <p style="margin: 0;">This map shows the chain of ownership and flow of money.</p>
+      </div>
       <h2>Click for Details</h2>
       <div id="details">Click any node to read what it is and how it connects.</div>
       <h3>Legend</h3>
       <div id="legend">
-        <div class="legend-row"><span class="swatch" style="background:#f39c12"></span>Westlake parcel</div>
-        <div class="legend-row"><span class="swatch" style="background:#e74c3c"></span>Westlake LP</div>
-        <div class="legend-row"><span class="swatch" style="background:#bdc3c7"></span>Shared phone or address</div>
-        <div class="legend-row"><span class="swatch" style="background:#3498db"></span>Lawyer / Law firm</div>
-        <div class="legend-row"><span class="swatch" style="background:#9b59b6"></span>Lobbying firm</div>
+        <div class="legend-row"><span class="swatch" style="background:#f39c12"></span>Headline parcel</div>
+        <div class="legend-row"><span class="swatch" style="background:#bdc3c7"></span>Same-LP sibling parcel</div>
+        <div class="legend-row"><span class="swatch" style="background:#e74c3c"></span>Holding company</div>
+        <div class="legend-row"><span class="swatch" style="background:#5dade2; border: 3px solid #9b59b6"></span>Law firm + lobbying firm (Allen Matkins / Kallick)</div>
+        <div class="legend-row"><span class="swatch" style="background:#9b59b6"></span>Lobbying firm (Marathon)</div>
+        <div class="legend-row"><span class="swatch" style="background:#d35a8b"></span>Lobbying firm (M Strategic)</div>
+        <div class="legend-row"><span class="swatch" style="background:#f1c40f"></span>Client (Digital Realty)</div>
+        <div class="legend-row"><span class="swatch" style="background:#34495e; border: 2px solid #c0392b"></span>Unnamed owner</div>
+        <div class="legend-row"><span class="swatch" style="background:#2c3e50"></span>Operating data center</div>
+        <div class="legend-row"><span class="swatch" style="background:#16a085"></span>Data center pipeline</div>
       </div>
       <h3>Edges</h3>
       <div style="font-size: 11px; line-height: 1.6;">
-        Solid arrow: formal relationship (entitles, represents, partner at).<br>
-        Dashed line: shared infrastructure (phone, address).<br>
-        Red arrow: Hessed to Shatto Emet matter transfer in Q3 2025.
+        Solid arrow: formal relationship (controls, lobbies for, owns).<br>
+        Red dashed arrow: Hessed &rarr; Shatto Emet matter transfer Q3 2025.<br>
+        Allen Matkins is the convergence node &mdash; both Westlake LPs route there <em>and</em> Digital Realty (600 W. 7th) routes there.
       </div>
     </div>
   </div>
@@ -111,8 +159,7 @@
 <!-- TAB 2 - Heatmap -->
 <div id="tab2" class="tab-content">
   <div id="heatmap-wrap">
-    <h2>Per-Project Per-Agency Spend Heatmap</h2>
-    <p>Each cell shows the cumulative dollars billed for that project where that agency appeared on the lobbying firm's quarterly disclosure. Source: Allen Matkins Form 34 (Q1 2025 - Q1 2026) and Marathon Communications Form 34 (Q2 2025 - Q1 2026). Methodology: for each quarter the agency was listed on the firm's filing for that matter, the full matter fee is added to the agency total. Quarters listed as "No Agencies Lobbied" with a non-zero fee are excluded from any agency cell (footnote at row level).</p>
+    <h2>Spending</h2>
     <div class="controls">
       <span style="font-size: 12px; color: #555; margin-right: 10px;">Hide rows:</span>
       <button onclick="toggleHeatmapCategory('digital')" id="hm-btn-digital">Hide Digital Realty</button>
@@ -191,54 +238,85 @@
   </div>
 </div>
 
+<!-- TAB 4 - Timeline & Data Pipeline -->
+<div id="tab4" class="tab-content">
+  <div id="timeline-wrap">
+    <h2>Timeline</h2>
+    <div id="gantt-container" style="padding: 0; overflow-x: auto;"></div>
+  </div>
+</div>
+
 <script>
 // =============================================================================
 // MAP 1 - STRUCTURE NETWORK
 // =============================================================================
 const map1Nodes = [
-  { id: 'p_2727', label: '2727 W. 6th\nAPN 5155-019-006', group: 'parcel', shape: 'box', title: '2727 W. 6th Street. Filed as 8-story 200K+ SF storage application.' },
-  { id: 'p_525', label: '525 S. Virgil\nAPN 5077-004-030', group: 'parcel', shape: 'box', title: '525 S. Virgil Avenue. Allen Matkins matter 396209.00002.' },
-  { id: 'lp_2727', label: '2727 6th Street LP', group: 'lp', shape: 'ellipse', title: 'Limited Partnership. Phone 713-771-0188. Listed at 9461 Charleville Boulevard, Suite 740, Beverly Hills, CA 90212. Allen Matkins and Marathon client from Q3 2025.' },
-  { id: 'lp_shatto', label: 'Shatto Emet QOZB LP', group: 'lp', shape: 'ellipse', title: 'Limited Partnership. Phone 713-771-0188. Listed at 2219 Main Street, Suite 260, Santa Monica, CA 90405. Allen Matkins and Marathon client from Q3 2025. Took over the 525 S. Virgil matter from Hessed Development.' },
-  { id: 'lp_hessed', label: 'Hessed Development, Inc.', group: 'lp', shape: 'ellipse', title: 'Limited Partnership. Phone 713-771-0188. Listed at 2219 Main Street, Suite 230, Santa Monica, CA 90405. Allen Matkins client from Q1 2025. Original Westlake acquisition vehicle.' },
-  { id: 'phone_houston', label: 'Houston Phone\n713-771-0188', group: 'shared', shape: 'diamond', title: 'Same phone number on the three Westlake LP filings: 2727 6th Street LP, Shatto Emet QOZB LP, and Hessed Development, Inc.' },
-  { id: 'addr_2219', label: '2219 Main Street\nSanta Monica', group: 'shared', shape: 'diamond', title: 'Hessed Development at Suite 230. Shatto Emet QOZB LP at Suite 260. Same building.' },
-  { id: 'addr_charleville', label: '9461 Charleville\nSTE 740, Beverly Hills', group: 'shared', shape: 'diamond', title: '2727 6th Street LP listed address.' },
-  { id: 'kallick', label: 'Spencer Kallick\nPartner', group: 'lawyer', shape: 'box', title: 'Partner at Allen Matkins. Registered with the LA City Ethics Commission (Form 30 filed January 2, 2026). Represents all three Westlake LPs and Digital Realty.' },
-  { id: 'allen_matkins', label: 'Allen Matkins LLP', group: 'lawfirm', shape: 'box', title: 'Law firm. Approximately $308,699 billed across Westlake matters from Q1 2025 through Q1 2026.' },
-  { id: 'marathon', label: 'Marathon Communications', group: 'lobbyfirm', shape: 'box', title: 'Political lobbying firm. Hired by 2727 6th Street LP and Shatto Emet QOZB LP starting Q2 2025. Approximately $69,825 billed across Westlake matters across four quarters.' },
+  // ROW 1 (top, even horizontal line) - The Team. Marathon on the Westlake side, Allen Matkins (two-tone) in the center, M Strategic on the Digital Realty side.
+  { id: 'marathon', label: '*Marathon Communications*\nLobbying firm', group: 'lobbyfirm', shape: 'box', x: -350, y: -180, fixed: true, font: { size: 14, multi: 'md' }, widthConstraint: 180, title: 'Marathon Communications Inc. Lobbying firm. Retained by Shatto Emet QOZB LP April 9 2025 and by 2727 6th Street LP May 16 2025. ~$69,825 billed across Westlake matters across four quarters. Also active for Arevon.' },
+  { id: 'allen_matkins', label: '*Allen Matkins LLP*\nSpencer Kallick (Partner)\nLaw firm + lobbying firm', group: 'lawfirm_dual', shape: 'box', x: 0, y: -180, fixed: true, font: { size: 14, multi: 'md' }, widthConstraint: 200, borderWidth: 6, title: 'Allen Matkins Leck Gamble Mallory & Natsis LLP. Spencer Kallick is the partner handling Westlake matters. Allen Matkins is registered with LA City as a lobbying firm (Form 31). Kallick is registered individually as a lobbyist (Form 30 filed Jan 2 2026). Two roles in one entity: law firm + lobbying firm. ~$308,699 billed across the Westlake matters Q1 2025 through Q1 2026. Convergence point: both Westlake LPs route here AND Digital Realty (600 W. 7th) routes here.' },
+  { id: 'm_strategic', label: '*M Strategic Communications*\nLobbying firm', group: 'lobbyfirm2', shape: 'box', x: 350, y: -180, fixed: true, font: { size: 14, multi: 'md' }, widthConstraint: 200, title: 'M Strategic Communications. LA City lobbying firm. Retained by Digital Realty for the 727 S. Grand data center matter ("DEVELOPMENT OF BUILDING DOWNTOWN") and (added Jan 1 2025) the "TRANSPACIFIC DATA LINES INTO LOS ANGELES" matter. LADWP, Public Works Board, and Recreation & Parks are on the Digital Realty agency list.' },
+  // ROW 2 - Owners. UNNAMED OWNER (Westlake side) and NAMED OWNER (Digital Realty). Same size, same font, mirrored positions.
+  { id: 'unknown_owner', label: '*?*\nUNNAMED OWNER\n(not on any LA City filing)', group: 'unknown', shape: 'box', x: -220, y: -420, fixed: true, font: { size: 14, multi: 'md' }, widthConstraint: 200, title: 'The party that controls the two Westlake holding companies (Shatto Emet QOZB LP, 2727 6th Street LP) is not named on any LA City Ethics Commission lobbying filing. Form 31 / Form 33 / Form 34 do not require disclosure of beneficial ownership of LP clients. The LPs share a Houston phone number on their filings, which is consistent with common back-office support, but the operator behind them is not on the public lobbying record.' },
+  { id: 'digital_realty', label: '*Digital Realty*\nNAMED OWNER\n(Austin, TX)', group: 'client', shape: 'box', x: 220, y: -420, fixed: true, font: { size: 14, multi: 'md' }, widthConstraint: 200, title: 'Digital Realty Services. 5707 Southwest Parkway, Austin, TX. Named on all relevant LA City lobbying filings. Hires both Allen Matkins (Kallick) for the existing LAX10 data center at 600 W. 7th Street (since Nov 1 2022, active through Q1 2026) and M Strategic Communications for 727 S. Grand "Development of Building Downtown" (since 2024) and the Transpacific Data Lines pipeline matter (since Jan 1 2025).' },
+  // ROW 3 - Holding Companies on the Westlake side only. Empty under Digital Realty (no LP layer there).
+  { id: 'lp_shatto', label: '*Shatto Emet QOZB LP*\nHolding Company\n2219 Main St, Santa Monica\n(formerly Hessed Development, Q3 2025 transfer)', group: 'lp', shape: 'ellipse', x: -400, y: 60, fixed: true, font: { multi: 'md' }, title: 'Shatto Emet QOZB LP. 2219 Main Street, Suite 260, Santa Monica, CA 90405. Took over the 525 S. Virgil matter from Hessed Development, Inc. (Houston TX) in Q3 2025 (same matter number 396209.00002, same APN). Also covers 3124 W. 6th and 610/612 Shatto (matter 394409.00002).' },
+  { id: 'lp_2727', label: '*2727 6th Street LP*\nHolding Company\n9461 Charleville, Beverly Hills', group: 'lp', shape: 'ellipse', x: -120, y: 60, fixed: true, font: { multi: 'md' }, title: '2727 6th Street LP. 9461 Charleville Boulevard, Suite 740, Beverly Hills, CA 90212. Marathon client from May 16 2025. Allen Matkins client from Q3 2025. Single matter on the public lobbying record: 2727 W. 6th Street (396362.00002).' },
+  // ROW 4 - Locations / parcels / projects. Westlake parcels (left) and Digital Realty projects (right).
+  { id: 'p_525', label: '*525 S. Virgil Ave*\n(zoning approved)\nAPN 5077-004-030', group: 'parcel_headline', shape: 'box', x: -540, y: 280, fixed: true, font: { size: 13, multi: 'md' }, widthConstraint: 150, title: '525 South Virgil Avenue. Zoning approved. Allen Matkins matter 396209.00002. Filed as self-storage. Headline parcel for Shatto Emet QOZB LP (originally Hessed Development, transferred Q3 2025).' },
+  { id: 'p_3124', label: '3124 W. 6th St\n(quietly held)\nAPN 5077-009-009', group: 'parcel_sibling', shape: 'box', x: -370, y: 280, fixed: true, title: '3124 W. 6th Street. Same LP as 525 S. Virgil (Shatto Emet QOZB LP). Part of Allen Matkins matter 394409.00002. No headline filing of its own yet.' },
+  { id: 'p_610', label: '610 Shatto Place\n(quietly held)\nAPN 5077-009-028', group: 'parcel_sibling', shape: 'box', x: -540, y: 400, fixed: true, title: '610 Shatto Place. Combined APN with 612 Shatto Place. Same LP. No headline filing of its own yet.' },
+  { id: 'p_612', label: '612 Shatto Place\n(quietly held)\nAPN 5077-009-028', group: 'parcel_sibling', shape: 'box', x: -370, y: 400, fixed: true, title: '612 Shatto Place. Combined APN with 610 Shatto. Same LP. No headline filing of its own yet.' },
+  { id: 'p_2727', label: '*2727 W. 6th St*\n(zoning approval June 3)\nAPN 5155-019-006', group: 'parcel_headline', shape: 'box', x: -120, y: 340, fixed: true, font: { size: 13, multi: 'md' }, widthConstraint: 150, title: '2727 W. 6th Street. Zoning approval June 3. Allen Matkins matter 396362.00002. Filed as 8-story 200K+ SF self-storage. Headline parcel for 2727 6th Street LP.' },
+  { id: 'ctx_600_7th', label: '*DATA CENTER*\n600 W. 7th St (LAX10)\nDigital Realty, operating', group: 'datacenter', shape: 'box', x: 280, y: 280, fixed: true, font: { size: 13, multi: 'md' }, widthConstraint: 170, title: 'LAX10 data center, downtown LA. Digital Realty owner. Allen Matkins (Kallick) handles entitlements (matter 372072.00002). Active through Q1 2026. ~$345,994 billed Q1 2025 through Q1 2026.' },
+  { id: 'ctx_727_grand', label: '*DATA CENTER*\n727 S. Grand Ave\nDigital Realty, new build', group: 'datacenter', shape: 'box', x: 470, y: 280, fixed: true, font: { size: 13, multi: 'md' }, widthConstraint: 170, title: 'Digital Realty new downtown build. M Strategic Communications matter "DEVELOPMENT OF BUILDING DOWNTOWN" since at least Jan 1 2024. Located at 727 S. Grand Ave, Los Angeles, CA 90017.' },
+  { id: 'ctx_conduit', label: '*New transpacific fiber line*\nburied 4 mi, El Segundo to DTLA\n(permits 2024-25)', group: 'pipeline', shape: 'box', x: 375, y: 410, fixed: true, font: { multi: 'md' }, widthConstraint: 200, title: 'Subsurface terrestrial fiber-optic conduit through public rights-of-way in the Cities of Los Angeles and El Segundo. ~4 miles. Connects the Dockweiler cable-landing site to existing downtown data centers. Part of M Strategic "TRANSPACIFIC DATA LINES INTO LOS ANGELES" matter for Digital Realty (since Jan 1 2025). The conduit carries fiber from new transpacific submarine cables.' },
+  { id: 'ctx_dockweiler', label: '*Global connection site*\nDockweiler Beach\n(4 new Pacific cables, 2024-25)', group: 'pipeline', shape: 'box', x: 375, y: 540, fixed: true, font: { multi: 'md' }, widthConstraint: 200, title: 'Dockweiler State Beach parking lot. Landing site for up to four transpacific submarine fiber optic cables connecting Los Angeles to the Asia-Pacific. Phase III permitted Jul 10 2024 (SubCom LLC + Vero Fiber Networks LLC). Larger LAX Transpacific Cable Landing project in CEQA review since Jun 26 2025 (applicant Hood 1703 LLC). This is where transpacific internet traffic comes ashore.' },
 ];
 const map1Edges = [
-  { from: 'lp_2727', to: 'p_2727', label: 'entitles', arrows: 'to' },
-  { from: 'lp_shatto', to: 'p_525', label: 'entitles', arrows: 'to' },
-  { from: 'lp_hessed', to: 'p_525', label: 'entitled Q1-Q2 2025 (transferred to Shatto Emet Q3 2025)', arrows: 'to', dashes: true },
-  { from: 'lp_hessed', to: 'lp_shatto', label: '525 S. Virgil matter transferred Q3 2025', arrows: 'to', color: { color: '#c0392b' }, width: 3 },
-  { from: 'lp_2727', to: 'phone_houston', dashes: true, color: { color: '#888' } },
-  { from: 'lp_shatto', to: 'phone_houston', dashes: true, color: { color: '#888' } },
-  { from: 'lp_hessed', to: 'phone_houston', dashes: true, color: { color: '#888' } },
-  { from: 'lp_shatto', to: 'addr_2219', label: 'STE 260', dashes: true, color: { color: '#888' } },
-  { from: 'lp_hessed', to: 'addr_2219', label: 'STE 230', dashes: true, color: { color: '#888' } },
-  { from: 'lp_2727', to: 'addr_charleville', dashes: true, color: { color: '#888' } },
-  { from: 'kallick', to: 'allen_matkins', label: 'partner at', arrows: 'to' },
-  { from: 'allen_matkins', to: 'lp_2727', label: 'represents', arrows: 'to' },
-  { from: 'allen_matkins', to: 'lp_shatto', label: 'represents', arrows: 'to' },
-  { from: 'allen_matkins', to: 'lp_hessed', label: 'represents', arrows: 'to' },
-  { from: 'marathon', to: 'lp_2727', label: 'represents', arrows: 'to' },
-  { from: 'marathon', to: 'lp_shatto', label: 'represents', arrows: 'to' },
+  // ROW 1 (Owners) -> ROW 2 (Firms): money flows from the owners to the firms. Heavy gold arrows carrying the dollar amount.
+  { from: 'unknown_owner', to: 'allen_matkins', label: '~$309K', arrows: 'to', color: { color: '#b8860b' }, width: 4, font: { color: '#7a5b00', size: 14, bold: true, strokeWidth: 3, strokeColor: 'white' } },
+  { from: 'unknown_owner', to: 'marathon', label: '~$70K', arrows: 'to', color: { color: '#b8860b' }, width: 4, font: { color: '#7a5b00', size: 14, bold: true, strokeWidth: 3, strokeColor: 'white' } },
+  { from: 'digital_realty', to: 'allen_matkins', label: '~$346K', arrows: 'to', color: { color: '#b8860b' }, width: 4, font: { color: '#7a5b00', size: 14, bold: true, strokeWidth: 3, strokeColor: 'white' } },
+  { from: 'digital_realty', to: 'm_strategic', label: 'lobbies for', arrows: 'to' },
+  // ROW 2 (Firms) -> ROW 3 (Holding Companies): money trickles down per matter. Same gold, slightly lighter weight.
+  { from: 'allen_matkins', to: 'lp_shatto', label: 'lobbies for\n~$190K', arrows: 'to', color: { color: '#b8860b' }, width: 3, font: { color: '#7a5b00', size: 12, strokeWidth: 3, strokeColor: 'white' } },
+  { from: 'allen_matkins', to: 'lp_2727', label: 'lobbies for\n~$119K', arrows: 'to', color: { color: '#b8860b' }, width: 3, font: { color: '#7a5b00', size: 12, strokeWidth: 3, strokeColor: 'white' } },
+  { from: 'marathon', to: 'lp_shatto', label: 'lobbies for\n~$57K', arrows: 'to', color: { color: '#b8860b' }, width: 3, font: { color: '#7a5b00', size: 12, strokeWidth: 3, strokeColor: 'white' } },
+  { from: 'marathon', to: 'lp_2727', label: 'lobbies for\n~$12K', arrows: 'to', color: { color: '#b8860b' }, width: 3, font: { color: '#7a5b00', size: 12, strokeWidth: 3, strokeColor: 'white' } },
+  // Allen Matkins reaches past Digital Realty to the existing LAX10 data center directly. No dollar repeated here; the $346K shows on the Digital Realty -> Allen Matkins arrow above.
+  { from: 'allen_matkins', to: 'ctx_600_7th', label: 'cleared the way for', arrows: 'to', color: { color: '#1f618d' }, width: 3, font: { color: '#1f618d', size: 10, strokeWidth: 3, strokeColor: 'white' } },
+  // ROW 3 (Holding Companies) -> ROW 4 (Westlake parcels): control / ownership.
+  { from: 'lp_shatto', to: 'p_525', label: 'controls', arrows: 'to' },
+  { from: 'lp_shatto', to: 'p_3124', label: 'controls', arrows: 'to' },
+  { from: 'lp_shatto', to: 'p_610', label: 'controls', arrows: 'to' },
+  { from: 'lp_shatto', to: 'p_612', label: 'controls', arrows: 'to' },
+  { from: 'lp_2727', to: 'p_2727', label: 'controls', arrows: 'to' },
+  // Digital Realty -> its projects (ownership / direct lobbying through M Strategic).
+  { from: 'digital_realty', to: 'ctx_600_7th', label: 'owns', arrows: 'to' },
+  { from: 'digital_realty', to: 'ctx_727_grand', label: 'owns', arrows: 'to' },
+  { from: 'digital_realty', to: 'ctx_conduit', label: 'lobbying for\n(Transpacific Data Lines matter,\nsince Jan 1 2025)', arrows: 'to' },
+  { from: 'digital_realty', to: 'ctx_dockweiler', label: 'lobbying for', arrows: 'to' },
 ];
 const networkOptions = {
-  nodes: { font: { size: 12, color: '#222' }, borderWidth: 2, margin: 8 },
-  edges: { font: { size: 10, color: '#555', strokeWidth: 0 }, smooth: { type: 'continuous' }, arrows: { to: { scaleFactor: 0.6 } } },
+  nodes: { font: { size: 11, color: '#222', multi: 'md' }, borderWidth: 2, margin: 8 },
+  edges: { font: { size: 9, color: '#555', strokeWidth: 2, strokeColor: 'white' }, smooth: { type: 'cubicBezier', forceDirection: 'vertical', roundness: 0.35 }, arrows: { to: { scaleFactor: 0.6 } } },
   groups: {
-    parcel: { color: { background: '#f39c12', border: '#b9770e' }, font: { color: 'white' } },
+    parcel_headline: { color: { background: '#f39c12', border: '#b9770e' }, font: { color: 'white' } },
+    parcel_sibling: { color: { background: '#bdc3c7', border: '#7f8c8d' }, font: { color: '#333' } },
     lp: { color: { background: '#e74c3c', border: '#922b21' }, font: { color: 'white' } },
-    shared: { color: { background: '#bdc3c7', border: '#7f8c8d' } },
+    lp_predecessor: { color: { background: '#f1948a', border: '#922b21' }, font: { color: '#333' } },
     lawyer: { color: { background: '#3498db', border: '#1f618d' }, font: { color: 'white' } },
     lawfirm: { color: { background: '#5dade2', border: '#1f618d' }, font: { color: 'white' } },
+    lawfirm_dual: { color: { background: '#5dade2', border: '#9b59b6' }, font: { color: 'white' } },
     lobbyfirm: { color: { background: '#9b59b6', border: '#6c3483' }, font: { color: 'white' } },
+    lobbyfirm2: { color: { background: '#d35a8b', border: '#8b2a5c' }, font: { color: 'white' } },
+    unknown: { color: { background: '#34495e', border: '#c0392b' }, font: { color: '#f1c40f' } },
+    client: { color: { background: '#f1c40f', border: '#b8860b' }, font: { color: '#333' } },
+    datacenter: { color: { background: '#2c3e50', border: '#1a252f' }, font: { color: 'white' } },
+    pipeline: { color: { background: '#16a085', border: '#117864' }, font: { color: 'white' } },
   },
-  physics: { enabled: true, barnesHut: { gravitationalConstant: -7000, springLength: 140, damping: 0.5 }, stabilization: { iterations: 200 } },
-  interaction: { hover: true, tooltipDelay: 200, navigationButtons: true, keyboard: true },
+  physics: { enabled: false },
+  interaction: { hover: true, tooltipDelay: 200, navigationButtons: true, keyboard: true, zoomView: true, dragView: true },
 };
 let network = null;
 function initMap1() {
@@ -274,7 +352,28 @@ const heatmapAgencies = [
 ];
 // Each row: { id, label, firm, category, cells: {agency: dollars}, totalFee, footnote }
 const heatmapRows = [
-  // Westlake — Allen Matkins
+  // Allen Matkins — entitlements track (Building & Safety, Planning, Public Works Engineering)
+  // LAX10 is the known data center. The two Westlake rows below it match its agency pattern.
+  {
+    id: 'r6', category: 'digital', label: 'Digital Realty 600 W. 7th Street (LAX10)',
+    firm: 'Allen Matkins', period: 'Q1 2025 - Q1 2026',
+    totalFee: 345994.50,
+    cells: {
+      'Building & Safety': 345994.50,
+      'Planning, City': 345994.50,
+      'Public Works, Engineering': 345994.50,
+    },
+  },
+  {
+    id: 'r2', category: 'westlake', label: '525 S. Virgil Avenue (Hessed, then Shatto Emet QOZB LP)',
+    firm: 'Allen Matkins', period: 'Q1 2025 - Q1 2026',
+    totalFee: 189807.43,
+    cells: {
+      'Building & Safety': 189807.43,
+      'Planning, City': 189807.43,
+      'Public Works, Engineering': 189807.43,
+    },
+  },
   {
     id: 'r1', category: 'westlake', label: '2727 W. 6th Street LP',
     firm: 'Allen Matkins', period: 'Q3 2025 - Q1 2026',
@@ -285,34 +384,19 @@ const heatmapRows = [
       'Public Works, Engineering': 118892.43,
     },
   },
+  // Marathon — political track (Mayor, City Council, Neighborhood Councils, Planning, plus Q4 2025 boilerplate add of LADWP).
+  // Arevon Merlin (an energy project for data centers) shows the political track Marathon runs.
+  // The two Westlake rows below it use the same agency mix.
   {
-    id: 'r2', category: 'westlake', label: '525 S. Virgil Avenue (Hessed Q1-Q2 2025 + Shatto Emet QOZB LP Q3 2025 - Q1 2026)',
-    firm: 'Allen Matkins', period: 'Q1 2025 - Q1 2026',
-    totalFee: 189807.43,
+    id: 'r8', category: 'arevon', label: 'Arevon Merlin (utility-scale battery project, no address disclosed)',
+    firm: 'Marathon', period: 'Q2 2025 - Q4 2025',
+    totalFee: 39296.54,
     cells: {
-      'Building & Safety': 189807.43,
-      'Planning, City': 189807.43,
-      'Public Works, Engineering': 189807.43,
+      'Mayor, Office of': 19500.00,
+      'City Council': 19500.00,
+      'Neighborhood Councils': 19500.00,
+      'Planning, City': 19500.00,
     },
-  },
-  // Westlake — Marathon
-  {
-    id: 'r4', category: 'westlake', label: '2727 W. 6th Street LP',
-    firm: 'Marathon', period: 'Q2 2025 - Q1 2026',
-    totalFee: 12416.25,
-    cells: {
-      'Mayor, Office of': 2140.00,
-      'City Council': 6901.25,
-      'Neighborhood Councils': 12416.25,
-      'Planning, City': 7655.00,
-      'Building & Safety': 2140.00,
-      'Fire (LAFD)': 2140.00,
-      'Harbor (POLA)': 2140.00,
-      'Police (LAPD)': 2140.00,
-      'Transportation (LADOT)': 2140.00,
-      'LADWP': 2140.00,
-    },
-    footnote: 'Q4 2025 entry ($2,140.00) used identical 10-agency boilerplate; the $2,140 appears in every agency cell for that quarter.',
   },
   {
     id: 'r5', category: 'westlake', label: '525 S. Virgil Avenue (Shatto Emet QOZB LP)',
@@ -330,49 +414,23 @@ const heatmapRows = [
       'Transportation (LADOT)': 42475.38,
       'LADWP': 22591.63,
     },
-    footnote: 'Q4 2025 entry ($22,591.63) used 10-agency boilerplate; that quarter contributes to every agency cell. Q3 2025 ($19,883.75) listed 8 agencies. Q2 2025 ($12,500) and Q1 2026 ($2,433.51) listed 4 and 3 agencies respectively.',
   },
-  // Digital Realty
   {
-    id: 'r6', category: 'digital', label: 'Digital Realty 600 W. 7th Street (LAX10)',
-    firm: 'Allen Matkins', period: 'Q1 2025 - Q1 2026',
-    totalFee: 345994.50,
-    cells: {
-      'Building & Safety': 345994.50,
-      'Planning, City': 345994.50,
-      'Public Works, Engineering': 345994.50,
-    },
-  },
-  // Arevon
-  {
-    id: 'r7', category: 'arevon', label: 'Arevon 23320 Alameda Street (Carson)',
+    id: 'r4', category: 'westlake', label: '2727 W. 6th Street LP',
     firm: 'Marathon', period: 'Q2 2025 - Q1 2026',
-    totalFee: 120909.13,
+    totalFee: 12416.25,
     cells: {
-      'Mayor, Office of': 120909.13,
-      'City Council': 120909.13,
-      'Harbor (POLA)': 80909.13,
-      'LADWP': 40549.91,
-      'Building & Safety': 20347.32,
-      'Fire (LAFD)': 60347.32,
-      'Neighborhood Councils': 60347.32,
-      'Planning, City': 60347.32,
-      'Police (LAPD)': 20347.32,
-      'Transportation (LADOT)': 60347.32,
+      'Mayor, Office of': 2140.00,
+      'City Council': 6901.25,
+      'Neighborhood Councils': 12416.25,
+      'Planning, City': 7655.00,
+      'Building & Safety': 2140.00,
+      'Fire (LAFD)': 2140.00,
+      'Harbor (POLA)': 2140.00,
+      'Police (LAPD)': 2140.00,
+      'Transportation (LADOT)': 2140.00,
+      'LADWP': 2140.00,
     },
-    footnote: 'Q4 2025 entry ($20,347.32) used 10-agency boilerplate; that quarter contributes to every agency cell. Q1 2025 Form 33 (Kramer, Shapiro) listed LADWP for Arevon Merlin at the individual lobbyist level - that quarter is not in this Form 34 dataset.',
-  },
-  {
-    id: 'r8', category: 'arevon', label: 'Arevon Merlin (blanket BESS, no address)',
-    firm: 'Marathon', period: 'Q2 2025 - Q4 2025',
-    totalFee: 39296.54,
-    cells: {
-      'Mayor, Office of': 19500.00,
-      'City Council': 19500.00,
-      'Neighborhood Councils': 19500.00,
-      'Planning, City': 19500.00,
-    },
-    footnote: 'Q3 2025 ($19,796.54) listed "No Agencies Lobbied" - those dollars are not attributed to any agency cell. Q4 2025 ($0) listed 10 agencies; $0 contributes nothing.',
   },
 ];
 
@@ -388,7 +446,7 @@ function renderHeatmap() {
     return `hsl(207, 70%, ${lightness}%)`;
   }
   let html = '<table class="heatmap"><thead><tr><th class="row-header">Project / Firm / Period</th>';
-  html += '<th class="col-header">Total Matter Fee</th>';
+  html += '<th class="col-header">Total Fee</th>';
   heatmapAgencies.forEach(a => {
     const cls = (a === 'LADWP') ? 'col-header ladwp' : 'col-header';
     html += `<th class="${cls}">${a}</th>`;
@@ -582,17 +640,219 @@ function toggleDR() {
 }
 
 // =============================================================================
+// TAB 4 - TIMELINE
+// =============================================================================
+// Each row: [date label, sort key (YYYY-MM-DD), lane ('lobby' | 'cable' | 'property'), event description, source]
+const timelineEvents = [
+  ['Apr 1, 2022', '2022-04-01', 'lobby', 'Craig Lawson & Co. begins lobbying for 1784 Capital Holdings LLC (Scottsdale, AZ 85258, same ZIP as Arevon) on a self-storage project in North Hollywood. City reference CPC-2019-7320-VZC-HD-CU-SPR-RDP.', 'Craig Lawson 2022 Form 31 (CEC31_12961), client 1 of 60'],
+  ['Jul 1, 2022', '2022-07-01', 'lobby', 'Craig Lawson & Co. begins lobbying for Hessed Development Inc. (Houston, TX) on a Pico Blvd. development. Hessed later moves to Allen Matkins for the Westlake parcels in Q1 2025.', 'Craig Lawson 2022 Form 31 (CEC31_12961), client 22 of 60'],
+  ['Nov 1, 2022', '2022-11-01', 'lobby', 'Allen Matkins begins lobbying for Digital Realty on the 600 W. 7th Street data center (LAX10), matter 372072.00002. Spencer Kallick is the named lobbyist. Active through Q1 2026.', 'Allen Matkins 2022 Form 31 (CEC31_12638), client 7 of 29'],
+  ['Q4 2022', '2022-12-31', 'lobby', 'Digital Realty pays Allen Matkins $35,762, the first quarterly fee on the 600 W. 7th Street data center matter.', 'Allen Matkins Q4 2022 Form 34'],
+  ['Jan 1, 2024', '2024-01-01', 'lobby', 'M Strategic Communications qualifies as a lobbying firm. Digital Realty Services listed as a client for the full year on a single matter, "DEVELOPMENT OF BUILDING DOWNTOWN" at 727 S. Grand Avenue. Agency list includes Mayor, City Council, Planning, Transportation (LADOT), and Water & Power (DWP). LADWP already on the Digital Realty agency list.', 'M Strategic 2024 Form 31 (CEC31_15548), client 9 of 34'],
+  ['Q1 2024', '2024-03-31', 'lobby', 'Gabriel Kramer (Marathon) lists Arevon on his Form 33 for the first time with the full 8-agency boilerplate. Earliest Marathon-Arevon disclosure on an individual lobbyist Form 33.', 'Kramer Q1 2024 Form 33 (CEC33_47450)'],
+  ['Q1 2024', '2024-03-31', 'lobby', 'Nathan Shapiro (Marathon) reports Arevon to City Council on his Form 33. Earliest specific Council contact disclosed for Arevon through Marathon.', 'Shapiro Q1 2024 Form 33 (CEC33_47436)'],
+  ['Jun 2024', '2024-06-01', 'cable', 'Phase III Local Coastal Development Permit Application 24-02 submitted to LA Bureau of Engineering. Applicants are SubCom LLC and Vero Fiber Networks LLC. The project covers a Pacific Light Cable Network segment plus a second Trans-Pacific Cable Segment, landing at Dockweiler State Beach parking lot.', 'LA Bureau of Engineering Phase III LCDP 24-02 record'],
+  ['Jun 11, 2024', '2024-06-11', 'cable', 'Virtual public hearing on Phase III CDP Application 24-02.', 'LA Bureau of Engineering hearing presentation (June 11, 2024)'],
+  ['Jun 17, 2024', '2024-06-17', 'cable', 'LA Bureau of Engineering issues Notice of Decision approving CDP No. 24-02 (Phase III). Ten-day appeal period begins.', 'LA Bureau of Engineering Notice of Decision (June 17, 2024)'],
+  ['Jun 28, 2024', '2024-06-28', 'cable', 'Phase III CDP 24-02 ten-day appeal period ends. No appeals filed.', 'LA Bureau of Engineering record'],
+  ['Jul 10, 2024', '2024-07-10', 'cable', 'Notice of Permit Issuance for Phase III CDP No. 24-02. Phase III is permitted.', 'LA Bureau of Engineering Notice of Permit Issuance (July 10, 2024)'],
+  ['Jan 1, 2025', '2025-01-01', 'lobby', 'M Strategic adds "TRANSPACIFIC DATA LINES INTO LOS ANGELES" as a second Digital Realty matter alongside the existing 727 S. Grand matter. Digital Realty\'s agency list expands to add Public Works Board of and Recreation & Parks. Now 7 agencies on Digital Realty.', 'M Strategic 2025 Form 31 (CEC31_17467), client 8 of 37'],
+  ['Q1 2025', '2025-01-15', 'lobby', 'Gabriel Kramer (Marathon) lists LADWP as the sole agency contacted on the Arevon "Merlin" matter on his Form 33. Earliest documented direct LADWP contact on the Arevon Merlin matter.', 'Kramer Q1 2025 Form 33 (CEC33_51864)'],
+  ['Q1 2025', '2025-01-30', 'lobby', 'Spencer Kallick (Allen Matkins) lists Hessed Development, Inc. on his Form 33 for matter 396209.00002 at 525 South Virgil. Earliest Allen Matkins lobbying on the Virgil parcel.', 'Kallick Q1 2025 Form 33 (CEC33_51320)'],
+  ['Apr 9, 2025', '2025-04-09', 'property', 'Shatto Emet QOZB LP (Santa Monica) retains Marathon Communications. Same Houston phone 713-771-0188 as Hessed and 2727 6th Street LP.', 'Marathon Q2 2025 Form 34 (CEC34_52518); Marathon 2025 Form 31'],
+  ['May 16, 2025', '2025-05-16', 'property', '2727 6th Street LP (Beverly Hills, Charleville Blvd.) retains Marathon Communications. Same Houston phone 713-771-0188.', 'Marathon Q2 2025 Form 34 (CEC34_52518); Marathon 2025 Form 31'],
+  ['Jun 26, 2025', '2025-06-26', 'cable', 'LA Bureau of Engineering begins CEQA environmental review for the larger LAX Transpacific Cable Landing Project. Hood 1703 LLC is the applicant. Up to four submarine cable systems, about 4 miles of subsurface terrestrial conduit through LA and El Segundo, four offshore bore pipes, two beach manholes, up to four ocean ground beds. EIR required.', 'LA Bureau of Engineering CEQA Notice of Preparation / Initial Study (June 26, 2025)'],
+  ['Jul 23, 2025', '2025-07-23', 'property', 'Allen Matkins retains both Westlake holding companies (Shatto Emet QOZB LP and 2727 6th Street LP) as clients on the 525 S. Virgil and 2727 W. 6th Street matters.', 'Allen Matkins Q3 2025 Form 34 (CEC34_53743)'],
+  ['Jul 25, 2025', '2025-07-25', 'cable', 'CEQA public scoping comment period closes for the LAX Transpacific Cable Landing Project.', 'LA Bureau of Engineering CEQA Notice of Preparation'],
+  ['Q3 2025', '2025-09-30', 'property', 'On Kallick\'s Q3 2025 Form 33, the client name on the 525 S. Virgil matter (396209.00002) switches from Hessed Development, Inc. to Shatto Emet QOZB LP. Same APN, same matter number, same Santa Monica building. Entity transfer.', 'Kallick Q3 2025 Form 33 (CEC33_54854)'],
+  ['Q3 2025', '2025-09-30', 'lobby', 'Kallick adds 2727 6th Street LP to his Form 33 for matter 396362.00002 at 2727 West 6th Street (APN 5155-019-006). Allen Matkins now lobbies for the assembly through the holding companies.', 'Kallick Q3 2025 Form 33 (CEC33_54854)'],
+  ['Q4 2025', '2025-12-31', 'lobby', 'Marathon adopts a 10-agency boilerplate string on every active matter (Mayor, City Council, Building & Safety, Fire (LAFD), Harbor (POLA), Neighborhood Councils, Planning, Police (LAPD), Transportation (LADOT), and Water & Power (DWP)). The Westlake holding companies are now disclosed as contacting LADWP under this boilerplate.', 'Marathon Q4 2025 Form 34 (CEC34_54495)'],
+  ['Jan 1, 2026', '2026-01-01', 'lobby', 'M Strategic\'s 2026 Form 31 continues Digital Realty\'s two matters (727 S. Grand "Development of Building Downtown" and Transpacific Data Lines into Los Angeles) for the full year. Agency list runs Mayor, City Council, Planning, Public Works Board of, Recreation & Parks, and Water & Power (DWP). Transportation (LADOT) dropped from prior year.', 'M Strategic 2026 Form 31 (CEC31_143052), client 9 of 32'],
+];
+
+function renderGantt() {
+  d3.select('#gantt-container').selectAll('*').remove();
+
+  // Events listed newest first. Scroll DOWN to go back in time.
+  const events = [
+    { date: 'Dec 15, 2025', text: "Marathon Founder and President Richard Lichtenstein added LADWP to the agency list for Shatto Emet QOZB LP and 2727 6th Street LP in Marathon's Q4 2025 Form 34. The two LPs own the supposedly self-storage Westlake properties at 525 S. Virgil and 2727 W. 6th.", source: 'Marathon%20Communications/Quarterlies/CEC34_54495.pdf', sourceLabel: 'Marathon Q4 2025 Form 34' },
+    { date: 'Aug 1, 2025', text: 'Four grant deeds totaling $13M cash recorded for 525 S. Virgil Avenue. The 525 holding company had hired Allen Matkins as its lawyer six months earlier and Marathon Communications as its lobbyist four months earlier.', source: 'https://www.propertyshark.com/mason/Property-Report/?propkey=16296908&lcl=california', sourceLabel: 'LA County deed record' },
+    { date: 'Jul 29, 2025', text: '2727 6th Street LP paid $10.19M cash for 2727 W. 6th Street, recorded as a grant deed with LA County. The LP had hired Marathon Communications as its lobbyist ten weeks earlier.', source: 'https://www.propertyshark.com/mason/Property-Report/?propkey=16332935&lcl=california#section_general', sourceLabel: 'LA County deed record' },
+    { date: 'Jun 26, 2025', text: "Hood 1703 LLC filed its LAX Transpacific Cable Landing Project for CEQA environmental review. The project lands up to four submarine cables at Dockweiler State Beach and runs conduit to existing downtown data centers. M Strategic Communications had added this cable to Digital Realty's lobbying work six months earlier.", source: 'https://engineering.lacity.gov/about-us/divisions/environmental-management/projects/lax-transpacific-cable-landing', sourceLabel: 'LA Bureau of Engineering CEQA' },
+    { date: 'May 16, 2025', text: '2727 6th Street LP hired Marathon Communications as its lobbyist for the 2727 W. 6th Street work, ten weeks before recording the deed of sale.', source: 'Marathon%20Communications/Quarterlies/CEC34_52518.pdf', sourceLabel: 'Marathon Q2 2025 Form 34' },
+    { date: 'Apr 9, 2025', text: 'Shatto Emet QOZB LP hired Marathon Communications as its lobbyist for the 525 S. Virgil work, four months before recording the deed of sale.', source: 'Marathon%20Communications/Quarterlies/CEC34_52518.pdf', sourceLabel: 'Marathon Q2 2025 Form 34' },
+    { date: 'Jan 30, 2025', text: "Hessed Development Inc. hired Allen Matkins as its lawyer for the 525 S. Virgil work, six months before recording the deed of sale. Allen Matkins is also Digital Realty's lawyer for LAX10 (600 W. 7th) and 727 S. Grand.", source: 'Allen%20Matkins/Spencer/CEC33_51320.pdf', sourceLabel: 'Kallick Q1 2025 Form 33' },
+    { date: 'Jan 1, 2025', text: 'M Strategic Communications added "Transpacific Data Lines into Los Angeles" as a Digital Realty lobbying engagement, six months before Hood 1703 LLC filed the cable project for environmental review.', source: 'Form%2031/Digital%20Realty/CEC31_17467.pdf', sourceLabel: 'M Strategic 2025 Form 31' },
+    { date: 'May 25, 2023', text: 'Digital Realty filed plans for a 13-story data center at 727 S. Grand Avenue, across the street from its existing LAX10 data center at 600 W. 7th Street.', source: 'https://www.datacenterdynamics.com/en/news/digital-realty-files-to-build-13-story-data-center-in-los-angeles-california/', sourceLabel: 'Data Center Dynamics' },
+  ];
+
+  const width = 380;
+  const cardWidth = 160;
+  const charsPerLine = 26;
+  const lineHeight = 14;
+  const padTop = 18, padBottom = 46, padLeft = 6;
+  const gap = 30;
+  const barX = 183, barW = 14;
+  const leftCardX = 10, rightCardX = 210;
+
+  // Word-wrap helper
+  function wrap(text, max) {
+    const words = text.split(' ');
+    const lines = [];
+    let cur = '';
+    for (const w of words) {
+      if (!cur) { cur = w; }
+      else if ((cur + ' ' + w).length <= max) { cur += ' ' + w; }
+      else { lines.push(cur); cur = w; }
+    }
+    if (cur) lines.push(cur);
+    return lines;
+  }
+
+  // Precompute wrapped lines and card heights
+  const wrapped = events.map(e => wrap(e.text, charsPerLine));
+  const cardHeights = wrapped.map(lines => padTop + lines.length * lineHeight + padBottom);
+
+  // Compute y position of each card top, alternating L/R
+  const cardY = [];
+  let y = 80;
+  events.forEach((e, i) => {
+    cardY.push(y);
+    y += cardHeights[i] + gap;
+  });
+  const timelineEnd = y + 20;
+
+  // Spend bar chart data and layout
+  const spendData = [
+    { q: 'Q1 2025', v: 11108 },
+    { q: 'Q2 2025', v: 44745 },
+    { q: 'Q3 2025', v: 115790 },
+    { q: 'Q4 2025', v: 145580 },
+    { q: 'Q1 2026', v: 61302 },
+  ];
+  const maxV = Math.max(...spendData.map(d => d.v));
+  const chartTitleH = 28;
+  const rowH = 30;
+  const chartH = chartTitleH + spendData.length * rowH + 20;
+  const totalHeight = timelineEnd + chartH + 20;
+
+  const svg = d3.select('#gantt-container').append('svg')
+    .attr('viewBox', `0 0 ${width} ${totalHeight}`)
+    .attr('preserveAspectRatio', 'xMidYMin meet')
+    .style('display', 'block')
+    .style('width', '100%')
+    .style('max-width', '500px')
+    .style('margin', '0 auto')
+    .style('background', '#1f4e78')
+    .style('font-family', 'system-ui, -apple-system, sans-serif');
+
+  // Vertical bar (timeline spine only, not extending into spend chart)
+  svg.append('rect')
+    .attr('x', barX).attr('y', 60).attr('width', barW).attr('height', timelineEnd - 80)
+    .attr('rx', 3).attr('fill', '#c0392b');
+
+  // Render each event
+  events.forEach((e, i) => {
+    const top = cardY[i];
+    const h = cardHeights[i];
+    const pinY = top + h / 2;
+    const isLeft = i % 2 === 0;
+    const cardX = isLeft ? leftCardX : rightCardX;
+    const textX = cardX + padLeft;
+
+    // Pin on bar
+    svg.append('circle')
+      .attr('cx', 190).attr('cy', pinY).attr('r', 6)
+      .attr('fill', 'white').attr('stroke', '#1f4e78').attr('stroke-width', 1.5);
+
+    // Lead line from bar to card
+    svg.append('line')
+      .attr('x1', isLeft ? barX : barX + barW)
+      .attr('y1', pinY)
+      .attr('x2', isLeft ? leftCardX + cardWidth : rightCardX)
+      .attr('y2', pinY)
+      .attr('stroke', 'white').attr('stroke-width', 1).attr('opacity', 0.85);
+
+    // Card background
+    svg.append('rect')
+      .attr('x', cardX).attr('y', top).attr('width', cardWidth).attr('height', h)
+      .attr('rx', 3)
+      .attr('fill', '#fdecea').attr('stroke', '#c0392b').attr('stroke-width', 1);
+
+    // Wrapped text
+    const txt = svg.append('text')
+      .attr('x', textX).attr('y', top + padTop)
+      .attr('fill', '#922b21').attr('font-size', 11).attr('font-weight', 500);
+    wrapped[i].forEach((line, li) => {
+      txt.append('tspan')
+        .attr('x', textX)
+        .attr('dy', li === 0 ? 0 : lineHeight)
+        .text(line);
+    });
+
+    // Date
+    svg.append('text')
+      .attr('x', textX).attr('y', top + h - 30)
+      .attr('fill', '#922b21').attr('font-size', 11).attr('font-weight', 700)
+      .text(e.date);
+
+    // Source link (clickable)
+    if (e.source) {
+      const link = svg.append('a')
+        .attr('href', e.source)
+        .attr('target', '_blank')
+        .attr('rel', 'noopener');
+      link.append('text')
+        .attr('x', textX).attr('y', top + h - 12)
+        .attr('fill', '#1f618d').attr('font-size', 10).attr('font-weight', 600)
+        .attr('text-decoration', 'underline')
+        .text('source: ' + (e.sourceLabel || 'open file'));
+    }
+  });
+
+  // ============ SPEND BAR CHART (below timeline) ============
+  const chartTop = timelineEnd;
+  const labelX = 15;
+  const barStart = 80;
+  const maxBarW = 200;
+
+  svg.append('text')
+    .attr('x', labelX).attr('y', chartTop + 18)
+    .attr('fill', 'white').attr('font-size', 13).attr('font-weight', 700)
+    .text('Westlake lobbying spend per quarter');
+
+  spendData.forEach((d, i) => {
+    const ry = chartTop + chartTitleH + i * rowH;
+    const barLen = (d.v / maxV) * maxBarW;
+    svg.append('text')
+      .attr('x', labelX).attr('y', ry + 17)
+      .attr('fill', 'white').attr('font-size', 11).attr('font-weight', 600)
+      .text(d.q);
+    svg.append('rect')
+      .attr('x', barStart).attr('y', ry + 4)
+      .attr('width', barLen).attr('height', 22)
+      .attr('fill', '#d4a017');
+    svg.append('text')
+      .attr('x', barStart + barLen + 6).attr('y', ry + 19)
+      .attr('fill', '#f4d57b').attr('font-size', 11).attr('font-weight', 700)
+      .text('$' + Math.round(d.v / 1000) + 'K');
+  });
+}
+
+// =============================================================================
 // TAB SWITCHING
 // =============================================================================
 let map1Initialized = false;
 let heatmapInitialized = false;
 let tablesInitialized = false;
+let timelineInitialized = false;
 function showTab(n) {
   document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === n - 1));
   document.querySelectorAll('.tab-content').forEach((c, i) => c.classList.toggle('active', i === n - 1));
   if (n === 1 && !map1Initialized) { initMap1(); map1Initialized = true; }
   if (n === 2 && !heatmapInitialized) { renderHeatmap(); heatmapInitialized = true; }
   if (n === 3 && !tablesInitialized) { renderActivityTable(); renderSummaryTable(); renderCompareTable(); tablesInitialized = true; }
+  if (n === 4 && !timelineInitialized) { renderGantt(); timelineInitialized = true; }
 }
 showTab(1);
 </script>
