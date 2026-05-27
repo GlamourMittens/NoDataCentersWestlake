@@ -119,7 +119,6 @@
   <div id="container1">
     <div id="network"></div>
     <div id="sidebar">
-      <h2>Same Team, Two Data Centers, One Pipeline, Five Parcels</h2>
       <div style="font-size: 12px; line-height: 1.5; background: #eef5fb; border-left: 3px solid #1f4e78; padding: 8px;">
         <p style="margin: 0 0 8px 0;">Five Westlake properties share the same law firm, Allen Matkins, and the same lobbying firm, Marathon Communications.</p>
         <p style="margin: 0 0 8px 0;">Allen Matkins handles a data center at 600 W. 7th Street for Digital Realty (LAX10) and a planned data center at 727 S. Grand. They're a commercial real estate law firm with 14 registered lobbyists, currently expanding their data center clients and data center team.</p>
@@ -128,6 +127,7 @@
         <a href="https://www.marathon-com.com/teamdescriptions" target="_blank" rel="noopener">Bechtel Corporation</a>, which builds data centers and the power plants that run them; and<br>
         <a href="https://ethics.lacity.gov/disclosure/lobbying/" target="_blank" rel="noopener">Arevon</a>, an energy company that supplies data centers with their electricity.</p>
         <p style="margin: 0 0 8px 0;">M Strategic Communications &mdash; also paid by Digital Realty &mdash; has been lobbying for the transpacific data-line pipeline that connects downtown to the Pacific. When complete, the pipeline would have the capacity to support a cluster of data centers larger than any in the world. Ten to thirty times the output of Las Vegas.</p>
+        <p style="margin: 0 0 8px 0;">Hood 1703 LLC is the applicant for the LAX Transpacific Cable Landing. Hood 1703 LLC and Crescent Heights share their LA City lobbying firm, Paul Hastings LLP. Thomas Faraut, listed as Project Representative (c/o Crescent Heights) in Beverly Hills Planning Commission records, appeared at the Westlake South Neighborhood Council in support of the &ldquo;self storage&rdquo; projects without disclosing his Crescent Heights affiliation. Twelve coordinated callers spoke immediately afterward.</p>
         <p style="margin: 0 0 8px 0;">The end client, who owns all five Westlake properties that sit on the pipeline, remains undisclosed.</p>
         <p style="margin: 0;">This map shows the chain of ownership and flow of money.</p>
       </div>
@@ -135,22 +135,23 @@
       <div id="details">Click any node to read what it is and how it connects.</div>
       <h3>Legend</h3>
       <div id="legend">
-        <div class="legend-row"><span class="swatch" style="background:#f39c12"></span>Headline parcel</div>
-        <div class="legend-row"><span class="swatch" style="background:#bdc3c7"></span>Same-LP sibling parcel</div>
-        <div class="legend-row"><span class="swatch" style="background:#e74c3c"></span>Holding company</div>
+        <div class="legend-row"><span class="swatch" style="background:#34495e; border: 2px solid #c0392b"></span>Unnamed client (top of diagram)</div>
         <div class="legend-row"><span class="swatch" style="background:#5dade2; border: 3px solid #9b59b6"></span>Law firm + lobbying firm (Allen Matkins / Kallick)</div>
         <div class="legend-row"><span class="swatch" style="background:#9b59b6"></span>Lobbying firm (Marathon)</div>
         <div class="legend-row"><span class="swatch" style="background:#d35a8b"></span>Lobbying firm (M Strategic)</div>
+        <div class="legend-row"><span class="swatch" style="background:#2c3e50; border: 2px solid #c0392b"></span>Crescent Heights + Faraut (bridge tile)</div>
+        <div class="legend-row"><span class="swatch" style="background:#c8a89f; border: 1px solid #7a4a3f"></span>Holding company (shells, muted)</div>
         <div class="legend-row"><span class="swatch" style="background:#f1c40f"></span>Client (Digital Realty)</div>
-        <div class="legend-row"><span class="swatch" style="background:#34495e; border: 2px solid #c0392b"></span>Unnamed owner</div>
-        <div class="legend-row"><span class="swatch" style="background:#2c3e50"></span>Operating data center</div>
-        <div class="legend-row"><span class="swatch" style="background:#16a085"></span>Data center pipeline</div>
+        <div class="legend-row"><span class="swatch" style="background:#f39c12"></span>Parcel with active filing</div>
+        <div class="legend-row"><span class="swatch" style="background:#bdc3c7"></span>Other parcel held by same LP</div>
+        <div class="legend-row"><span class="swatch" style="background:#2c3e50"></span>Operating or planned data center</div>
+        <div class="legend-row"><span class="swatch" style="background:#16a085"></span>Cable infrastructure (geographic spine)</div>
       </div>
       <h3>Edges</h3>
       <div style="font-size: 11px; line-height: 1.6;">
-        Solid arrow: formal relationship (controls, lobbies for, owns).<br>
-        Red dashed arrow: Hessed &rarr; Shatto Emet matter transfer Q3 2025.<br>
-        Allen Matkins is the convergence node &mdash; both Westlake LPs route there <em>and</em> Digital Realty (600 W. 7th) routes there.
+        Gold arrow: money flow (dollars billed by the lobbying firms).<br>
+        Solid arrow: relationship disclosed on a filing (controls, lobbies for, owns, applicant).<br>
+        Red dashed arrow: undisclosed advocacy at the Westlake South Neighborhood Council (Faraut spoke in favor without disclosing his Crescent Heights affiliation).
       </div>
     </div>
   </div>
@@ -196,7 +197,7 @@
             <th onclick="sortTable('tbl-activity', 0)">Quarter</th>
             <th onclick="sortTable('tbl-activity', 1)">Firm</th>
             <th onclick="sortTable('tbl-activity', 2)">Client</th>
-            <th onclick="sortTable('tbl-activity', 3)">Project / Matter</th>
+            <th onclick="sortTable('tbl-activity', 3)">Project</th>
             <th onclick="sortTable('tbl-activity', 4, 'num')">Fee ($)</th>
             <th onclick="sortTable('tbl-activity', 5)">Agencies Lobbied</th>
             <th onclick="sortTable('tbl-activity', 6)">Source PDF</th>
@@ -225,10 +226,9 @@
       <tbody id="summary-body"></tbody>
     </table>
 
-    <h3>3. Westlake vs Digital Realty Comparison</h3>
+    <h3>3. Westlake parcels and Digital Realty 600 W. 7th Street, side by side</h3>
     <div class="controls">
       <button onclick="toggleDR()" id="dr-toggle-btn">Hide Digital Realty Column</button>
-      <span style="font-size: 11px; color: #555;">Click to overlay or hide the downtown data center comparison.</span>
     </div>
     <table class="compare" id="compare-table">
       <thead>
@@ -256,26 +256,34 @@
 // MAP 1 - STRUCTURE NETWORK
 // =============================================================================
 const map1Nodes = [
-  // ROW 1 (top, even horizontal line) - The Team. Marathon on the Westlake side, Allen Matkins (two-tone) in the center, M Strategic on the Digital Realty side.
-  { id: 'marathon', label: '*Marathon Communications*\nLobbying firm', group: 'lobbyfirm', shape: 'box', x: -350, y: -180, fixed: true, font: { size: 14, multi: 'md' }, widthConstraint: 180, title: 'Marathon Communications Inc. Lobbying firm. Retained by Shatto Emet QOZB LP April 9 2025 and by 2727 6th Street LP May 16 2025. ~$69,825 billed across Westlake matters across four quarters. Also active for Arevon.' },
-  { id: 'allen_matkins', label: '*Allen Matkins LLP*\nSpencer Kallick (Partner)\nLaw firm + lobbying firm', group: 'lawfirm_dual', shape: 'box', x: 0, y: -180, fixed: true, font: { size: 14, multi: 'md' }, widthConstraint: 200, borderWidth: 6, title: 'Allen Matkins Leck Gamble Mallory & Natsis LLP. Spencer Kallick is the partner handling Westlake matters. Allen Matkins is registered with LA City as a lobbying firm (Form 31). Kallick is registered individually as a lobbyist (Form 30 filed Jan 2 2026). Two roles in one entity: law firm + lobbying firm. ~$308,699 billed across the Westlake matters Q1 2025 through Q1 2026. Convergence point: both Westlake LPs route here AND Digital Realty (600 W. 7th) routes here.' },
-  { id: 'm_strategic', label: '*M Strategic Communications*\nLobbying firm', group: 'lobbyfirm2', shape: 'box', x: 350, y: -180, fixed: true, font: { size: 14, multi: 'md' }, widthConstraint: 200, title: 'M Strategic Communications. LA City lobbying firm. Retained by Digital Realty for the 727 S. Grand data center matter ("DEVELOPMENT OF BUILDING DOWNTOWN") and (added Jan 1 2025) the "TRANSPACIFIC DATA LINES INTO LOS ANGELES" matter. LADWP, Public Works Board, and Recreation & Parks are on the Digital Realty agency list.' },
-  // ROW 2 - Owners. UNNAMED OWNER (Westlake side) and NAMED OWNER (Digital Realty). Same size, same font, mirrored positions.
-  { id: 'unknown_owner', label: '*?*\nUNNAMED OWNER\n(not on any LA City filing)', group: 'unknown', shape: 'box', x: -220, y: -420, fixed: true, font: { size: 14, multi: 'md' }, widthConstraint: 200, title: 'The party that controls the two Westlake holding companies (Shatto Emet QOZB LP, 2727 6th Street LP) is not named on any LA City Ethics Commission lobbying filing. Form 31 / Form 33 / Form 34 do not require disclosure of beneficial ownership of LP clients. The LPs share a Houston phone number on their filings, which is consistent with common back-office support, but the operator behind them is not on the public lobbying record.' },
-  { id: 'digital_realty', label: '*Digital Realty*\nNAMED OWNER\n(Austin, TX)', group: 'client', shape: 'box', x: 220, y: -420, fixed: true, font: { size: 14, multi: 'md' }, widthConstraint: 200, title: 'Digital Realty Services. 5707 Southwest Parkway, Austin, TX. Named on all relevant LA City lobbying filings. Hires both Allen Matkins (Kallick) for the existing LAX10 data center at 600 W. 7th Street (since Nov 1 2022, active through Q1 2026) and M Strategic Communications for 727 S. Grand "Development of Building Downtown" (since 2024) and the Transpacific Data Lines pipeline matter (since Jan 1 2025).' },
-  // ROW 3 - Holding Companies on the Westlake side only. Empty under Digital Realty (no LP layer there).
-  { id: 'lp_shatto', label: '*Shatto Emet QOZB LP*\nHolding Company\n2219 Main St, Santa Monica\n(formerly Hessed Development, Q3 2025 transfer)', group: 'lp', shape: 'ellipse', x: -400, y: 60, fixed: true, font: { multi: 'md' }, title: 'Shatto Emet QOZB LP. 2219 Main Street, Suite 260, Santa Monica, CA 90405. Took over the 525 S. Virgil matter from Hessed Development, Inc. (Houston TX) in Q3 2025 (same matter number 396209.00002, same APN). Also covers 3124 W. 6th and 610/612 Shatto (matter 394409.00002).' },
-  { id: 'lp_2727', label: '*2727 6th Street LP*\nHolding Company\n9461 Charleville, Beverly Hills', group: 'lp', shape: 'ellipse', x: -120, y: 60, fixed: true, font: { multi: 'md' }, title: '2727 6th Street LP. 9461 Charleville Boulevard, Suite 740, Beverly Hills, CA 90212. Marathon client from May 16 2025. Allen Matkins client from Q3 2025. Single matter on the public lobbying record: 2727 W. 6th Street (396362.00002).' },
-  // ROW 4 - Locations / parcels / projects. Westlake parcels (left) and Digital Realty projects (right).
-  { id: 'p_525', label: '*525 S. Virgil Ave*\n(zoning approved)\nAPN 5077-004-030', group: 'parcel_headline', shape: 'box', x: -540, y: 280, fixed: true, font: { size: 13, multi: 'md' }, widthConstraint: 150, title: '525 South Virgil Avenue. Zoning approved. Allen Matkins matter 396209.00002. Filed as self-storage. Headline parcel for Shatto Emet QOZB LP (originally Hessed Development, transferred Q3 2025).' },
-  { id: 'p_3124', label: '3124 W. 6th St\n(quietly held)\nAPN 5077-009-009', group: 'parcel_sibling', shape: 'box', x: -370, y: 280, fixed: true, title: '3124 W. 6th Street. Same LP as 525 S. Virgil (Shatto Emet QOZB LP). Part of Allen Matkins matter 394409.00002. No headline filing of its own yet.' },
-  { id: 'p_610', label: '610 Shatto Place\n(quietly held)\nAPN 5077-009-028', group: 'parcel_sibling', shape: 'box', x: -540, y: 400, fixed: true, title: '610 Shatto Place. Combined APN with 612 Shatto Place. Same LP. No headline filing of its own yet.' },
-  { id: 'p_612', label: '612 Shatto Place\n(quietly held)\nAPN 5077-009-028', group: 'parcel_sibling', shape: 'box', x: -370, y: 400, fixed: true, title: '612 Shatto Place. Combined APN with 610 Shatto. Same LP. No headline filing of its own yet.' },
-  { id: 'p_2727', label: '*2727 W. 6th St*\n(zoning approval June 3)\nAPN 5155-019-006', group: 'parcel_headline', shape: 'box', x: -120, y: 340, fixed: true, font: { size: 13, multi: 'md' }, widthConstraint: 150, title: '2727 W. 6th Street. Zoning approval June 3. Allen Matkins matter 396362.00002. Filed as 8-story 200K+ SF self-storage. Headline parcel for 2727 6th Street LP.' },
-  { id: 'ctx_600_7th', label: '*DATA CENTER*\n600 W. 7th St (LAX10)\nDigital Realty, operating', group: 'datacenter', shape: 'box', x: 280, y: 280, fixed: true, font: { size: 13, multi: 'md' }, widthConstraint: 170, title: 'LAX10 data center, downtown LA. Digital Realty owner. Allen Matkins (Kallick) handles entitlements (matter 372072.00002). Active through Q1 2026. ~$345,994 billed Q1 2025 through Q1 2026.' },
-  { id: 'ctx_727_grand', label: '*DATA CENTER*\n727 S. Grand Ave\nDigital Realty, new build', group: 'datacenter', shape: 'box', x: 470, y: 280, fixed: true, font: { size: 13, multi: 'md' }, widthConstraint: 170, title: 'Digital Realty new downtown build. M Strategic Communications matter "DEVELOPMENT OF BUILDING DOWNTOWN" since at least Jan 1 2024. Located at 727 S. Grand Ave, Los Angeles, CA 90017.' },
-  { id: 'ctx_conduit', label: '*New transpacific fiber line*\nburied 4 mi, El Segundo to DTLA\n(permits 2024-25)', group: 'pipeline', shape: 'box', x: 375, y: 410, fixed: true, font: { multi: 'md' }, widthConstraint: 200, title: 'Subsurface terrestrial fiber-optic conduit through public rights-of-way in the Cities of Los Angeles and El Segundo. ~4 miles. Connects the Dockweiler cable-landing site to existing downtown data centers. Part of M Strategic "TRANSPACIFIC DATA LINES INTO LOS ANGELES" matter for Digital Realty (since Jan 1 2025). The conduit carries fiber from new transpacific submarine cables.' },
-  { id: 'ctx_dockweiler', label: '*Global connection site*\nDockweiler Beach\n(4 new Pacific cables, 2024-25)', group: 'pipeline', shape: 'box', x: 375, y: 540, fixed: true, font: { multi: 'md' }, widthConstraint: 200, title: 'Dockweiler State Beach parking lot. Landing site for up to four transpacific submarine fiber optic cables connecting Los Angeles to the Asia-Pacific. Phase III permitted Jul 10 2024 (SubCom LLC + Vero Fiber Networks LLC). Larger LAX Transpacific Cable Landing project in CEQA review since Jun 26 2025 (applicant Hood 1703 LLC). This is where transpacific internet traffic comes ashore.' },
+  // TOP ROW - The owners. Unknown client (Westlake side) and Digital Realty (named owner of the downtown data centers). Positioned in parallel as the two possible answers to the same question: who actually owns the Westlake parcels.
+  { id: 'unknown_owner', label: '*?*\n\n*UNNAMED CLIENT*\nOwns 5 Westlake parcels\nNot on any LA City\nEthics Commission filing', group: 'unknown', shape: 'box', x: -150, y: -520, fixed: true, font: { size: 16, multi: 'md', bold: { size: 20, color: '#f1c40f' } }, widthConstraint: 280, title: 'The party that controls Shatto Emet QOZB LP and 2727 6th Street LP is not named on any LA City Ethics Commission lobbying filing. Form 31, Form 33, and Form 34 do not require disclosure of the parties behind LP clients. Shatto Emet QOZB LP, 2727 6th Street LP, and predecessor Hessed Development Inc. share Houston phone number 713-771-0188.' },
+  { id: 'digital_realty', label: '*Digital Realty*\nNamed owner (Austin, TX)\nOwns LAX10 + 727 S Grand', group: 'client', shape: 'box', x: 450, y: -520, fixed: true, font: { size: 14, multi: 'md' }, widthConstraint: 200, title: 'Digital Realty Services. 5707 Southwest Parkway, Austin, TX. Hires Allen Matkins (Spencer Kallick) for the LAX10 data center at 600 W. 7th Street (since Nov 1, 2022, active through Q1 2026). Hires M Strategic Communications for 727 S. Grand "Development of Building Downtown" (since 2024) and Transpacific Data Lines into Los Angeles (since Jan 1, 2025).' },
+
+  // ROW 1 - LOBBYING FIRMS. Allen Matkins is the convergence (heavy border). Marathon on Westlake side, M Strategic on Digital Realty side.
+  { id: 'marathon', label: '*Marathon Communications*\nLobbying firm', group: 'lobbyfirm', shape: 'box', x: -300, y: -280, fixed: true, font: { size: 14, multi: 'md' }, widthConstraint: 180, title: 'Marathon Communications Inc. Registered LA City lobbying firm (Form 31). Retained by Shatto Emet QOZB LP on April 9, 2025 and by 2727 6th Street LP on May 16, 2025. Total fees reported across both clients Q2 2025 through Q1 2026: $69,825. Also retained by Arevon for the Merlin project.' },
+  { id: 'allen_matkins', label: '*Allen Matkins LLP*\nSpencer Kallick (Partner)\nLaw firm + lobbying firm', group: 'lawfirm_dual', shape: 'box', x: 50, y: -280, fixed: true, font: { size: 14, multi: 'md' }, widthConstraint: 200, borderWidth: 6, title: 'Allen Matkins Leck Gamble Mallory & Natsis LLP. Spencer Kallick is the named partner on the Westlake filings. Allen Matkins is registered with LA City as a lobbying firm (Form 31). Kallick is registered individually as a lobbyist (Form 30 filed Jan 2, 2026). Total fees reported for 525 S. Virgil and 2727 W. 6th Q1 2025 through Q1 2026: $308,699. Allen Matkins is also Digital Realty\'s law firm on the LAX10 data center at 600 W. 7th Street.' },
+  { id: 'm_strategic', label: '*M Strategic Communications*\nLobbying firm', group: 'lobbyfirm2', shape: 'box', x: 400, y: -280, fixed: true, font: { size: 14, multi: 'md' }, widthConstraint: 200, title: 'M Strategic Communications. Registered LA City lobbying firm. Retained by Digital Realty for two engagements: "DEVELOPMENT OF BUILDING DOWNTOWN" (727 S. Grand) and "TRANSPACIFIC DATA LINES INTO LOS ANGELES" (added Jan 1, 2025). Agencies listed for Digital Realty include LADWP, Public Works Board, and Recreation & Parks.' },
+
+  // ROW 2 - BRIDGE. Only one node here: the Faraut / Crescent Heights tile. Vertical arrow drops straight down to Hood 1703 (same x).
+  { id: 'ch_faraut', label: '*THOMAS FARAUT*\nCrescent Heights\n(undisclosed at Westlake NC)', group: 'shadow', shape: 'box', x: -520, y: -80, fixed: true, font: { size: 13, multi: 'md', bold: { size: 18 } }, widthConstraint: 220, title: 'Thomas Faraut is listed as "Project Representative (c/o Crescent Heights)" in Beverly Hills Planning Commission Special Meeting Minutes, October 21, 2025, Item 2 (8844 Burton Way). Crescent Heights and Hood 1703 LLC share the same registered LA City lobbying firm, Paul Hastings LLP. Paul Hastings 2025 Form 31 (CEC31_17152) and 2026 Form 31 (CEC31_17893) both list Crescent Heights and Hood 1703 LLC as clients with overlapping representation dates. Paul Hastings also lobbies for 3100 Wilshire, LLC, which Faraut owns. Faraut spoke in support of the Westlake "self storage" projects at the Westlake South Neighborhood Council without disclosing this affiliation. Twelve coordinated callers spoke immediately afterward. Faraut is not registered as a lobbyist with LA City and is not on Paul Hastings LLP\'s individual lobbyist roster.' },
+
+  // ROW 3 - HOLDING COMPANIES. All three shells on the same plane. Hood 1703 (cable side) is the same kind of entity as Shatto Emet and 2727 6th Street LP. Muted color so the shells recede.
+  { id: 'hood_1703', label: '*Hood 1703 LLC*\nLAX Cable applicant\n(USS Hood NCC-1703,\nStar Trek shell name)', group: 'lp', shape: 'ellipse', x: -520, y: 100, fixed: true, font: { multi: 'md' }, title: 'Hood 1703 LLC. Applicant of record for the LAX Transpacific Cable Landing Project per LA Bureau of Engineering CEQA Notice of Preparation dated June 26, 2025. Paul Hastings LLP is its registered LA City lobbying firm. Paul Hastings 2026 Form 31 lists Hood 1703 LLC with a single city matter: LAX Transpacific Cable Landing. Position: Support. The name Hood 1703 references USS Hood, registry NCC-1703, a Federation starship in Star Trek. Deliberate shell-company naming choice.' },
+  { id: 'lp_shatto', label: '*Shatto Emet QOZB LP*\n2219 Main St, Santa Monica\n(replaced Hessed Development\non Q3 2025 filings)', group: 'lp', shape: 'ellipse', x: -220, y: 100, fixed: true, font: { multi: 'md' }, title: 'Shatto Emet QOZB LP. 2219 Main Street, Suite 260, Santa Monica, CA 90405. Listed as client on Allen Matkins filing 396209.00002 (525 S. Virgil) starting Q3 2025, replacing Hessed Development Inc. (Houston, TX). Same filing number, same APN. Also listed as client on Allen Matkins filing 394409.00002, which covers 3124 W. 6th, 610 Shatto Place, and 612 Shatto Place.' },
+  { id: 'lp_2727', label: '*2727 6th Street LP*\n9461 Charleville Blvd,\nBeverly Hills', group: 'lp', shape: 'ellipse', x: 80, y: 100, fixed: true, font: { multi: 'md' }, title: '2727 6th Street LP. 9461 Charleville Boulevard, Suite 740, Beverly Hills, CA 90212. Marathon client from May 16, 2025. Allen Matkins client from Q3 2025. Listed on Allen Matkins filing 396362.00002 for 2727 W. 6th Street.' },
+
+  // ROW 4 - PARCELS + DATA CENTERS. Buildings sit ABOVE the cable spine. Westlake parcels in the middle, downtown data centers on the right.
+  { id: 'p_525', label: '*525 S. Virgil Ave*\n(GPA + Zone Change pending)\nAPN 5077-004-030', group: 'parcel_headline', shape: 'box', x: -380, y: 290, fixed: true, font: { size: 13, multi: 'md' }, widthConstraint: 150, title: '525 South Virgil Avenue. APN 5077-004-030. Allen Matkins filing 396209.00002. Filed as self-storage. Project Description on the planning set (sheet A001) requires a General Plan Amendment pursuant to LAMC 11.5.6, a Zone Change pursuant to LAMC 12.32, a Conditional Use Permit pursuant to LAMC 12.24.W.50, and a Site Plan Review pursuant to LAMC 16.05. Held by Shatto Emet QOZB LP (Q3 2025 onward; originally Hessed Development Inc.).' },
+  { id: 'p_3124', label: '3124 W. 6th St\nAPN 5077-009-009', group: 'parcel_sibling', shape: 'box', x: -220, y: 290, fixed: true, title: '3124 W. 6th Street. Held by Shatto Emet QOZB LP. Listed on Allen Matkins filing 394409.00002. No project-specific filing of its own on the public record.' },
+  { id: 'p_610', label: '610 Shatto Pl\nAPN 5077-009-028', group: 'parcel_sibling', shape: 'box', x: -150, y: 380, fixed: true, title: '610 Shatto Place. Combined APN with 612 Shatto Place. Held by Shatto Emet QOZB LP. No project-specific filing of its own on the public record.' },
+  { id: 'p_612', label: '612 Shatto Pl\nAPN 5077-009-028', group: 'parcel_sibling', shape: 'box', x: -50, y: 380, fixed: true, title: '612 Shatto Place. Combined APN with 610 Shatto. Held by Shatto Emet QOZB LP. No project-specific filing of its own on the public record.' },
+  { id: 'p_2727', label: '*2727 W. 6th St*\n(RVNC Planning Mtg June 3,\nthen City Planning)\nAPN 5155-019-006', group: 'parcel_headline', shape: 'box', x: 100, y: 290, fixed: true, font: { size: 13, multi: 'md' }, widthConstraint: 160, title: '2727 W. 6th Street. APN 5155-019-006. Allen Matkins filing 396362.00002. Filed as 8-story 200,000+ sq ft self-storage. Held by 2727 6th Street LP. The Rampart Village Neighborhood Council Planning Special Meeting scheduled for June 3 is the last RVNC step before the case advances to City Planning. Zoning has not been approved at the City Planning level as of this writing.' },
+  { id: 'ctx_600_7th', label: '*DATA CENTER*\n600 W. 7th St (LAX10)\nDigital Realty, operating', group: 'datacenter', shape: 'box', x: 400, y: 290, fixed: true, font: { size: 13, multi: 'md' }, widthConstraint: 170, title: 'LAX10 data center, downtown Los Angeles. Owned by Digital Realty. Allen Matkins (Spencer Kallick) is the law firm on filing 372072.00002. Active through Q1 2026. Total fees Q1 2025 through Q1 2026: $345,994.' },
+  { id: 'ctx_727_grand', label: '*DATA CENTER*\n727 S. Grand Ave\nDigital Realty, new build', group: 'datacenter', shape: 'box', x: 600, y: 290, fixed: true, font: { size: 13, multi: 'md' }, widthConstraint: 170, title: 'Digital Realty new downtown build at 727 S. Grand Avenue, Los Angeles, CA 90017. M Strategic Communications listed on "DEVELOPMENT OF BUILDING DOWNTOWN" filing since at least Jan 1, 2024.' },
+
+  // ROW 5 - CABLE SPINE. One node only. Lands at Dockweiler State Beach, runs east as conduit through Westlake to downtown.
+  { id: 'ctx_conduit', label: '*LAX Transpacific Cable Landing*\nApplicant: Hood 1703 LLC\nLands at Dockweiler State Beach\n4 mi conduit to downtown LA\n(CEQA review opened Jun 26, 2025)', group: 'pipeline', shape: 'box', x: 0, y: 500, fixed: true, font: { multi: 'md' }, widthConstraint: 380, title: 'LAX Transpacific Cable Landing Project. Applicant: Hood 1703 LLC. LA Bureau of Engineering CEQA review opened June 26, 2025. Lands at Dockweiler State Beach parking lot. Subsurface fiber-optic conduit through public rights-of-way in Los Angeles and El Segundo, approximately 4 miles to existing downtown data centers. Up to 4 submarine cable systems planned. Phase III permitted July 10, 2024 (applicants SubCom LLC and Vero Fiber Networks LLC). The five Westlake parcels controlled by Shatto Emet QOZB LP and 2727 6th Street LP sit along this conduit route. Listed on M Strategic "TRANSPACIFIC DATA LINES INTO LOS ANGELES" filing for Digital Realty since Jan 1, 2025.' },
 ];
 const map1Edges = [
   // ROW 1 (Owners) -> ROW 2 (Firms): money flows from the owners to the firms. Heavy gold arrows carrying the dollar amount.
@@ -283,24 +291,29 @@ const map1Edges = [
   { from: 'unknown_owner', to: 'marathon', label: '~$70K', arrows: 'to', color: { color: '#b8860b' }, width: 4, font: { color: '#7a5b00', size: 14, bold: true, strokeWidth: 3, strokeColor: 'white' } },
   { from: 'digital_realty', to: 'allen_matkins', label: '~$346K', arrows: 'to', color: { color: '#b8860b' }, width: 4, font: { color: '#7a5b00', size: 14, bold: true, strokeWidth: 3, strokeColor: 'white' } },
   { from: 'digital_realty', to: 'm_strategic', label: 'lobbies for', arrows: 'to' },
-  // ROW 2 (Firms) -> ROW 3 (Holding Companies): money trickles down per matter. Same gold, slightly lighter weight.
+  // ROW 2 (Firms) -> ROW 3 (Holding Companies): per-client fees. Same gold, lighter weight.
   { from: 'allen_matkins', to: 'lp_shatto', label: 'lobbies for\n~$190K', arrows: 'to', color: { color: '#b8860b' }, width: 3, font: { color: '#7a5b00', size: 12, strokeWidth: 3, strokeColor: 'white' } },
   { from: 'allen_matkins', to: 'lp_2727', label: 'lobbies for\n~$119K', arrows: 'to', color: { color: '#b8860b' }, width: 3, font: { color: '#7a5b00', size: 12, strokeWidth: 3, strokeColor: 'white' } },
   { from: 'marathon', to: 'lp_shatto', label: 'lobbies for\n~$57K', arrows: 'to', color: { color: '#b8860b' }, width: 3, font: { color: '#7a5b00', size: 12, strokeWidth: 3, strokeColor: 'white' } },
   { from: 'marathon', to: 'lp_2727', label: 'lobbies for\n~$12K', arrows: 'to', color: { color: '#b8860b' }, width: 3, font: { color: '#7a5b00', size: 12, strokeWidth: 3, strokeColor: 'white' } },
   // Allen Matkins reaches past Digital Realty to the existing LAX10 data center directly. No dollar repeated here; the $346K shows on the Digital Realty -> Allen Matkins arrow above.
-  { from: 'allen_matkins', to: 'ctx_600_7th', label: 'cleared the way for', arrows: 'to', color: { color: '#1f618d' }, width: 3, font: { color: '#1f618d', size: 10, strokeWidth: 3, strokeColor: 'white' } },
+  { from: 'allen_matkins', to: 'ctx_600_7th', label: 'lobbies for', arrows: 'to', color: { color: '#1f618d' }, width: 3, font: { color: '#1f618d', size: 10, strokeWidth: 3, strokeColor: 'white' } },
   // ROW 3 (Holding Companies) -> ROW 4 (Westlake parcels): control / ownership.
   { from: 'lp_shatto', to: 'p_525', label: 'controls', arrows: 'to' },
   { from: 'lp_shatto', to: 'p_3124', label: 'controls', arrows: 'to' },
   { from: 'lp_shatto', to: 'p_610', label: 'controls', arrows: 'to' },
   { from: 'lp_shatto', to: 'p_612', label: 'controls', arrows: 'to' },
   { from: 'lp_2727', to: 'p_2727', label: 'controls', arrows: 'to' },
-  // Digital Realty -> its projects (ownership / direct lobbying through M Strategic).
+  // Digital Realty owns its two downtown data centers and lobbies on the cable through M Strategic.
   { from: 'digital_realty', to: 'ctx_600_7th', label: 'owns', arrows: 'to' },
   { from: 'digital_realty', to: 'ctx_727_grand', label: 'owns', arrows: 'to' },
-  { from: 'digital_realty', to: 'ctx_conduit', label: 'lobbying for\n(Transpacific Data Lines matter,\nsince Jan 1 2025)', arrows: 'to' },
-  { from: 'digital_realty', to: 'ctx_dockweiler', label: 'lobbying for', arrows: 'to' },
+  { from: 'digital_realty', to: 'ctx_conduit', label: 'lobbies for\n(Transpacific Data Lines)', arrows: 'to' },
+  // Hood 1703 (cable applicant) sits directly below the Crescent Heights + Faraut tile. Vertical arrow down.
+  { from: 'ch_faraut', to: 'hood_1703', label: 'shares lobbyist\n(Paul Hastings LLP)', arrows: 'to', color: { color: '#2980b9' }, width: 2, font: { color: '#1f618d', size: 10, strokeWidth: 3, strokeColor: 'white' } },
+  { from: 'hood_1703', to: 'ctx_conduit', label: 'applicant of record', arrows: 'to', color: { color: '#7a4a3f' }, width: 2, font: { color: '#7a4a3f', size: 10, strokeWidth: 3, strokeColor: 'white' } },
+  // Faraut's undisclosed advocacy at the Westlake South Neighborhood Council. Red dashed = concealment.
+  { from: 'ch_faraut', to: 'lp_shatto', label: 'spoke in favor at\nWestlake NC, undisclosed', arrows: 'to', dashes: [4, 4], color: { color: '#c0392b' }, width: 2, font: { color: '#922b21', size: 10, strokeWidth: 3, strokeColor: 'white' } },
+  { from: 'ch_faraut', to: 'lp_2727', label: 'spoke in favor at\nWestlake NC, undisclosed', arrows: 'to', dashes: [4, 4], color: { color: '#c0392b' }, width: 2, font: { color: '#922b21', size: 10, strokeWidth: 3, strokeColor: 'white' } },
 ];
 const networkOptions = {
   nodes: { font: { size: 11, color: '#222', multi: 'md' }, borderWidth: 2, margin: 8 },
@@ -308,7 +321,7 @@ const networkOptions = {
   groups: {
     parcel_headline: { color: { background: '#f39c12', border: '#b9770e' }, font: { color: 'white' } },
     parcel_sibling: { color: { background: '#bdc3c7', border: '#7f8c8d' }, font: { color: '#333' } },
-    lp: { color: { background: '#e74c3c', border: '#922b21' }, font: { color: 'white' } },
+    lp: { color: { background: '#c8a89f', border: '#7a4a3f' }, font: { color: '#3d1f1c' } },
     lp_predecessor: { color: { background: '#f1948a', border: '#922b21' }, font: { color: '#333' } },
     lawyer: { color: { background: '#3498db', border: '#1f618d' }, font: { color: 'white' } },
     lawfirm: { color: { background: '#5dade2', border: '#1f618d' }, font: { color: 'white' } },
@@ -319,6 +332,9 @@ const networkOptions = {
     client: { color: { background: '#f1c40f', border: '#b8860b' }, font: { color: '#333' } },
     datacenter: { color: { background: '#2c3e50', border: '#1a252f' }, font: { color: 'white' } },
     pipeline: { color: { background: '#16a085', border: '#117864' }, font: { color: 'white' } },
+    developer: { color: { background: '#2980b9', border: '#1f618d' }, font: { color: 'white' } },
+    cable_project: { color: { background: '#ffffff', border: '#7f8c8d' }, font: { color: '#2c3e50' } },
+    shadow: { color: { background: '#2c3e50', border: '#c0392b' }, font: { color: '#ecf0f1' } },
   },
   physics: { enabled: false },
   interaction: { hover: true, tooltipDelay: 200, navigationButtons: true, keyboard: true, zoomView: true, dragView: true },
@@ -341,7 +357,7 @@ function initMap1() {
 // =============================================================================
 // MAP 2 - HEATMAP (Per-project per-agency dollar amounts)
 // =============================================================================
-// Cells = cumulative dollars billed where that agency was on the firm's quarterly disclosure for that matter.
+// Cells = cumulative dollars billed where that agency was on the firm's quarterly disclosure for that client.
 const heatmapAgencies = [
   'Building & Safety',
   'Planning, City',
@@ -357,7 +373,7 @@ const heatmapAgencies = [
 ];
 // Each row: { id, label, firm, category, cells: {agency: dollars}, totalFee, footnote }
 const heatmapRows = [
-  // Allen Matkins — entitlements track (Building & Safety, Planning, Public Works Engineering)
+  // Allen Matkins — lists Building & Safety, Planning, Public Works Engineering on every client
   // LAX10 is the known data center. The two Westlake rows below it match its agency pattern.
   {
     id: 'r6', category: 'digital', label: 'Digital Realty 600 W. 7th Street (LAX10)',
@@ -389,8 +405,8 @@ const heatmapRows = [
       'Public Works, Engineering': 118892.43,
     },
   },
-  // Marathon — political track (Mayor, City Council, Neighborhood Councils, Planning, plus Q4 2025 boilerplate add of LADWP).
-  // Arevon Merlin (an energy project for data centers) shows the political track Marathon runs.
+  // Marathon — Mayor, City Council, Neighborhood Councils, Planning; Q4 2025 filing adds LADWP plus 5 more agencies on every client.
+  // Arevon Merlin appears first as a Marathon reference client.
   // The two Westlake rows below it use the same agency mix.
   {
     id: 'r8', category: 'arevon', label: 'Arevon Merlin (utility-scale battery project, no address disclosed)',
@@ -505,42 +521,42 @@ function resetHeatmap() {
 // =============================================================================
 // TAB 3 - DATA TABLES
 // =============================================================================
-// Activity rows: every Form 34 line item (firm-level) for Westlake matters, Digital Realty, Arevon, Hines (as reference for Allen Matkins scale).
+// Activity rows: every Form 34 line item (firm-level) for Westlake clients, Digital Realty, Arevon, Hines (as reference for Allen Matkins scale).
 const activityRows = [
   // Q1 2025 Allen Matkins
-  ['Q1 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 43838.50, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_51330.pdf'],
-  ['Q1 2025', 'Allen Matkins', 'Hessed Development, Inc.', '525 S. Virgil (matter 396209.00002)', 11108.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_51330.pdf'],
+  ['Q1 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (filing 372072.00002)', 43838.50, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_51330.pdf'],
+  ['Q1 2025', 'Allen Matkins', 'Hessed Development, Inc.', '525 S. Virgil (filing 396209.00002)', 11108.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_51330.pdf'],
   // Q2 2025 Allen Matkins
-  ['Q2 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 46721.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_52604.pdf'],
-  ['Q2 2025', 'Allen Matkins', 'Hessed Development, Inc.', '525 S. Virgil (matter 396209.00002)', 32245.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_52604.pdf'],
+  ['Q2 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (filing 372072.00002)', 46721.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_52604.pdf'],
+  ['Q2 2025', 'Allen Matkins', 'Hessed Development, Inc.', '525 S. Virgil (filing 396209.00002)', 32245.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_52604.pdf'],
   // Q2 2025 Marathon (first Westlake quarter)
   ['Q2 2025', 'Marathon', '2727 6th Street LP', '2727 W. 6th Street', 0, 'Mayor; City Council; Neighborhood Councils; Planning City', 'CEC34_52518.pdf'],
   ['Q2 2025', 'Marathon', 'Shatto Emet QOZB LP', '525 S. Virgil Avenue', 12500.00, 'Mayor; City Council; Neighborhood Councils; Planning City', 'CEC34_52518.pdf'],
   ['Q2 2025', 'Marathon', 'Arevon', '23320 Alameda Street, Carson', 20202.59, 'Mayor; City Council; Harbor (POLA); LADWP', 'CEC34_52518.pdf'],
   ['Q2 2025', 'Marathon', 'Arevon', 'Arevon Merlin (no address)', 19500.00, 'Mayor; City Council; Neighborhood Councils; Planning City', 'CEC34_52518.pdf'],
   // Q3 2025 Allen Matkins
-  ['Q3 2025', 'Allen Matkins', '2727 6th Street LP', '2727 W. 6th Street (matter 396362.00002)', 42846.43, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_53743.pdf'],
-  ['Q3 2025', 'Allen Matkins', 'Shatto Emet QOZB LP', '525 S. Virgil (matter 396209.00002)', 48298.93, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_53743.pdf'],
-  ['Q3 2025', 'Allen Matkins', 'Hessed Development, Inc.', '525 S. Virgil (matter 396209.00002)', 0, 'No Agencies Lobbied', 'CEC34_53743.pdf'],
-  ['Q3 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 78955.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_53743.pdf'],
+  ['Q3 2025', 'Allen Matkins', '2727 6th Street LP', '2727 W. 6th Street (filing 396362.00002)', 42846.43, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_53743.pdf'],
+  ['Q3 2025', 'Allen Matkins', 'Shatto Emet QOZB LP', '525 S. Virgil (filing 396209.00002)', 48298.93, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_53743.pdf'],
+  ['Q3 2025', 'Allen Matkins', 'Hessed Development, Inc.', '525 S. Virgil (filing 396209.00002)', 0, 'No Agencies Lobbied', 'CEC34_53743.pdf'],
+  ['Q3 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (filing 372072.00002)', 78955.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_53743.pdf'],
   // Q3 2025 Marathon
   ['Q3 2025', 'Marathon', '2727 6th Street LP', '2727 W. 6th Street', 4761.25, 'City Council; Neighborhood Councils', 'CEC34_53466.pdf'],
   ['Q3 2025', 'Marathon', 'Shatto Emet QOZB LP', '525 S. Virgil Avenue', 19883.75, 'Mayor; City Council; Building & Safety; Fire (LAFD); Neighborhood Councils; Planning City; Police (LAPD); Transportation (LADOT)', 'CEC34_53466.pdf'],
   ['Q3 2025', 'Marathon', 'Arevon', '23320 Alameda Street, Carson', 40359.22, 'Mayor; City Council; Harbor (POLA)', 'CEC34_53466.pdf'],
   ['Q3 2025', 'Marathon', 'Arevon', 'Arevon Merlin (no address)', 19796.54, 'No Agencies Lobbied', 'CEC34_53466.pdf'],
   // Q4 2025 Allen Matkins
-  ['Q4 2025', 'Allen Matkins', '2727 6th Street LP', '2727 W. 6th Street (matter 396362.00002)', 48746.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_54865.pdf'],
-  ['Q4 2025', 'Allen Matkins', 'Shatto Emet QOZB LP', '525 S. Virgil (matter 396209.00002)', 72102.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_54865.pdf'],
-  ['Q4 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 75475.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_54865.pdf'],
-  // Q4 2025 Marathon (boilerplate quarter)
-  ['Q4 2025', 'Marathon', '2727 6th Street LP', '2727 W. 6th Street', 2140.00, 'Mayor; City Council; Building & Safety; Fire (LAFD); Harbor (POLA); Neighborhood Councils; Planning City; Police (LAPD); Transportation (LADOT); LADWP (boilerplate)', 'CEC34_54495.pdf'],
-  ['Q4 2025', 'Marathon', 'Shatto Emet QOZB LP', '525 S. Virgil Avenue', 22591.63, 'Mayor; City Council; Building & Safety; Fire (LAFD); Harbor (POLA); Neighborhood Councils; Planning City; Police (LAPD); Transportation (LADOT); LADWP (boilerplate)', 'CEC34_54495.pdf'],
+  ['Q4 2025', 'Allen Matkins', '2727 6th Street LP', '2727 W. 6th Street (filing 396362.00002)', 48746.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_54865.pdf'],
+  ['Q4 2025', 'Allen Matkins', 'Shatto Emet QOZB LP', '525 S. Virgil (filing 396209.00002)', 72102.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_54865.pdf'],
+  ['Q4 2025', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (filing 372072.00002)', 75475.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_54865.pdf'],
+  // Q4 2025 Marathon (10-agency list on every client)
+  ['Q4 2025', 'Marathon', '2727 6th Street LP', '2727 W. 6th Street', 2140.00, 'Mayor; City Council; Building & Safety; Fire (LAFD); Harbor (POLA); Neighborhood Councils; Planning City; Police (LAPD); Transportation (LADOT); LADWP (same 10-agency list)', 'CEC34_54495.pdf'],
+  ['Q4 2025', 'Marathon', 'Shatto Emet QOZB LP', '525 S. Virgil Avenue', 22591.63, 'Mayor; City Council; Building & Safety; Fire (LAFD); Harbor (POLA); Neighborhood Councils; Planning City; Police (LAPD); Transportation (LADOT); LADWP (same 10-agency list)', 'CEC34_54495.pdf'],
   ['Q4 2025', 'Marathon', 'Arevon', '23320 Alameda Street, Carson', 20347.32, 'Mayor; City Council; Building & Safety; Fire (LAFD); Harbor (POLA); Neighborhood Councils; Planning City; Police (LAPD); Transportation (LADOT); LADWP', 'CEC34_54495.pdf'],
-  ['Q4 2025', 'Marathon', 'Arevon', 'Arevon Merlin (no address)', 0, 'same boilerplate as above', 'CEC34_54495.pdf'],
+  ['Q4 2025', 'Marathon', 'Arevon', 'Arevon Merlin (no address)', 0, 'same 10-agency list as above', 'CEC34_54495.pdf'],
   // Q1 2026 Allen Matkins
-  ['Q1 2026', 'Allen Matkins', '2727 6th Street LP', '2727 W. 6th Street (matter 396362.00002)', 27300.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_55661.pdf'],
-  ['Q1 2026', 'Allen Matkins', 'Shatto Emet QOZB LP', '525 S. Virgil (matter 396209.00002)', 26053.50, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_55661.pdf'],
-  ['Q1 2026', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (matter 372072.00002)', 101005.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_55661.pdf'],
+  ['Q1 2026', 'Allen Matkins', '2727 6th Street LP', '2727 W. 6th Street (filing 396362.00002)', 27300.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_55661.pdf'],
+  ['Q1 2026', 'Allen Matkins', 'Shatto Emet QOZB LP', '525 S. Virgil (filing 396209.00002)', 26053.50, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_55661.pdf'],
+  ['Q1 2026', 'Allen Matkins', 'Digital Realty', '600 W. 7th Street (filing 372072.00002)', 101005.00, 'Building & Safety; Planning City; Public Works Engineering', 'CEC34_55661.pdf'],
   // Q1 2026 Marathon
   ['Q1 2026', 'Marathon', '2727 6th Street LP', '2727 W. 6th Street', 5515.00, 'Neighborhood Councils; Planning City', 'CEC34_55537.pdf'],
   ['Q1 2026', 'Marathon', 'Shatto Emet QOZB LP', '525 S. Virgil Avenue', 2433.51, 'City Council; Neighborhood Councils; Planning City', 'CEC34_55537.pdf'],
@@ -549,24 +565,24 @@ const activityRows = [
 
 // Project summary rows
 const summaryRows = [
-  ['2727 W. 6th Street', '2727 6th Street LP', 118892.43, 12416.25, 131308.68, 'Building & Safety; Planning City; Public Works Engineering (Allen Matkins). Mayor; City Council; Neighborhood Councils; Planning City (Marathon). Q4 2025 Marathon entry adds 6 more agencies (boilerplate).', 'Q3 2025 - Q1 2026 (3 quarters)'],
-  ['525 S. Virgil Avenue', 'Shatto Emet QOZB LP (was Hessed Q1-Q2 2025)', 189807.43, 57408.89, 247216.32, 'Building & Safety; Planning City; Public Works Engineering (Allen Matkins). Mayor; City Council; Building & Safety; Fire (LAFD); Neighborhood Councils; Planning City; Police (LAPD); Transportation (LADOT) (Marathon). Q4 2025 Marathon entry adds LADWP and Harbor (boilerplate).', 'Q1 2025 - Q1 2026 (5 quarters)'],
+  ['2727 W. 6th Street', '2727 6th Street LP', 118892.43, 12416.25, 131308.68, 'Building & Safety; Planning City; Public Works Engineering (Allen Matkins). Mayor; City Council; Neighborhood Councils; Planning City (Marathon). Q4 2025 Marathon entry adds 6 more agencies (same 10-agency list).', 'Q3 2025 - Q1 2026 (3 quarters)'],
+  ['525 S. Virgil Avenue', 'Shatto Emet QOZB LP (was Hessed Q1-Q2 2025)', 189807.43, 57408.89, 247216.32, 'Building & Safety; Planning City; Public Works Engineering (Allen Matkins). Mayor; City Council; Building & Safety; Fire (LAFD); Neighborhood Councils; Planning City; Police (LAPD); Transportation (LADOT) (Marathon). Q4 2025 Marathon entry adds LADWP and Harbor (same 10-agency list).', 'Q1 2025 - Q1 2026 (5 quarters)'],
   ['Digital Realty 600 W. 7th Street (LAX10)', 'Digital Realty (5707 Southwest Parkway, Austin TX)', 345994.50, 0, 345994.50, 'Building & Safety; Planning City; Public Works Engineering (same three agencies as Westlake)', 'Q1 2025 - Q1 2026 (5 quarters)'],
-  ['Arevon 23320 Alameda (Carson)', 'Arevon (Scottsdale AZ)', 0, 120909.13, 120909.13, 'Mayor; City Council; Harbor (POLA); LADWP - LADWP appears for Arevon in Q2 2025 and Q4 2025 (boilerplate)', 'Q2 2025 - Q1 2026 (4 quarters)'],
-  ['Arevon Merlin (no address)', 'Arevon (blanket entitlement vehicle)', 0, 39296.54, 39296.54, 'LADWP (Q1 2025, Kramer + Shapiro per Form 33); No Agencies Lobbied (Q3 2025); boilerplate (Q4 2025)', 'Q1 2025 - Q4 2025'],
+  ['Arevon 23320 Alameda (Carson)', 'Arevon (Scottsdale AZ)', 0, 120909.13, 120909.13, 'Mayor; City Council; Harbor (POLA); LADWP - LADWP appears for Arevon in Q2 2025 and Q4 2025 (same 10-agency list)', 'Q2 2025 - Q1 2026 (4 quarters)'],
+  ['Arevon Merlin (no address)', 'Arevon', 0, 39296.54, 39296.54, 'LADWP (Q1 2025, Kramer + Shapiro per Form 33); No Agencies Lobbied (Q3 2025); same 10-agency list (Q4 2025)', 'Q1 2025 - Q4 2025'],
 ];
 
 // Comparison rows
 const compareRows = [
   ['Project type filed', '8-story 200K+ SF storage', 'Operating 7-story 27 MW data center (existing LAX10 facility)'],
   ['Allen Matkins fees Q1 2025 - Q1 2026', '$308,699.86 (2727 W. 6th + 525 S. Virgil; includes Hessed Q1-Q2 2025 as the original 525 S. Virgil client before Shatto Emet QOZB LP took over Q3 2025)', '$345,994.50 (Digital Realty 600 W. 7th)'],
-  ['Marathon fees Q1 2025 - Q1 2026', '$69,825.14 (2727 W. 6th + 525 S. Virgil)', 'n/a (Marathon does not represent Digital Realty)'],
+  ['Marathon fees Q1 2025 - Q1 2026', '$69,825.14 (2727 W. 6th + 525 S. Virgil)', 'n/a (Marathon not on Digital Realty filings for 600 W. 7th)'],
   ['Combined firm spend', '$378,525.00', '$345,994.50'],
   ['Number of quarters active', '2727: 3 quarters (Q3 2025 - Q1 2026). 525 S. Virgil: 5 quarters continuous (Q1 2025 Hessed, then Shatto Emet QOZB LP Q3 2025+).', '5 quarters continuous (Q1 2025 - Q1 2026)'],
   ['Agencies Kallick lobbied (per his Form 33)', 'Building & Safety; Planning City; Public Works Engineering', 'Building & Safety; Planning City; Public Works Engineering'],
-  ['Applicant LP / SPV structure', 'Three LPs (2727 6th Street LP, Shatto Emet QOZB LP, Hessed Development) share Houston phone 713-771-0188', 'GIP 7th Street, LLC is the applicant SPV on Digital Realty\'s adjacent new build at 727 S. Grand (LAX13). Pattern of operator behind SPV is the same.'],
+  ['Applicant LP / SPV structure', '2727 6th Street LP (Beverly Hills); Shatto Emet QOZB LP (Santa Monica); Hessed Development Inc. (Houston, TX)', 'GIP 7th Street, LLC is the applicant SPV on Digital Realty\'s adjacent new build at 727 S. Grand.'],
   ['CEQA pathway', 'Class 32 categorical exemption claimed for 2727', 'Full Environmental Impact Report being prepared by the City for the 727 S. Grand new build'],
-  ['Political lobbyist', 'Marathon Communications', 'Not retained for the 600 W. 7th matter on the public record'],
+  ['Political lobbyist', 'Marathon Communications', 'Not retained for the 600 W. 7th filing on the public record'],
   ['Activity expenses / political contributions / fundraising on Form 33 (Kallick)', '$0 across all quarters', '$0 across all quarters'],
 ];
 
@@ -651,28 +667,28 @@ function toggleDR() {
 const timelineEvents = [
   ['Apr 1, 2022', '2022-04-01', 'lobby', 'Craig Lawson & Co. begins lobbying for 1784 Capital Holdings LLC (Scottsdale, AZ 85258, same ZIP as Arevon) on a self-storage project in North Hollywood. City reference CPC-2019-7320-VZC-HD-CU-SPR-RDP.', 'Craig Lawson 2022 Form 31 (CEC31_12961), client 1 of 60'],
   ['Jul 1, 2022', '2022-07-01', 'lobby', 'Craig Lawson & Co. begins lobbying for Hessed Development Inc. (Houston, TX) on a Pico Blvd. development. Hessed later moves to Allen Matkins for the Westlake parcels in Q1 2025.', 'Craig Lawson 2022 Form 31 (CEC31_12961), client 22 of 60'],
-  ['Nov 1, 2022', '2022-11-01', 'lobby', 'Allen Matkins begins lobbying for Digital Realty on the 600 W. 7th Street data center (LAX10), matter 372072.00002. Spencer Kallick is the named lobbyist. Active through Q1 2026.', 'Allen Matkins 2022 Form 31 (CEC31_12638), client 7 of 29'],
-  ['Q4 2022', '2022-12-31', 'lobby', 'Digital Realty pays Allen Matkins $35,762, the first quarterly fee on the 600 W. 7th Street data center matter.', 'Allen Matkins Q4 2022 Form 34'],
-  ['Jan 1, 2024', '2024-01-01', 'lobby', 'M Strategic Communications qualifies as a lobbying firm. Digital Realty Services listed as a client for the full year on a single matter, "DEVELOPMENT OF BUILDING DOWNTOWN" at 727 S. Grand Avenue. Agency list includes Mayor, City Council, Planning, Transportation (LADOT), and Water & Power (DWP). LADWP already on the Digital Realty agency list.', 'M Strategic 2024 Form 31 (CEC31_15548), client 9 of 34'],
-  ['Q1 2024', '2024-03-31', 'lobby', 'Gabriel Kramer (Marathon) lists Arevon on his Form 33 for the first time with the full 8-agency boilerplate. Earliest Marathon-Arevon disclosure on an individual lobbyist Form 33.', 'Kramer Q1 2024 Form 33 (CEC33_47450)'],
+  ['Nov 1, 2022', '2022-11-01', 'lobby', 'Allen Matkins begins lobbying for Digital Realty on the 600 W. 7th Street data center (LAX10), filing 372072.00002. Spencer Kallick is the named lobbyist. Active through Q1 2026.', 'Allen Matkins 2022 Form 31 (CEC31_12638), client 7 of 29'],
+  ['Q4 2022', '2022-12-31', 'lobby', 'Digital Realty pays Allen Matkins $35,762, the first quarterly fee on the 600 W. 7th Street data center engagement.', 'Allen Matkins Q4 2022 Form 34'],
+  ['Jan 1, 2024', '2024-01-01', 'lobby', 'M Strategic Communications qualifies as a lobbying firm. Digital Realty Services listed as a client for the full year on a single engagement, "DEVELOPMENT OF BUILDING DOWNTOWN" at 727 S. Grand Avenue. Agency list includes Mayor, City Council, Planning, Transportation (LADOT), and Water & Power (DWP). LADWP already on the Digital Realty agency list.', 'M Strategic 2024 Form 31 (CEC31_15548), client 9 of 34'],
+  ['Q1 2024', '2024-03-31', 'lobby', 'Gabriel Kramer (Marathon) lists Arevon on his Form 33 for the first time with a full 8-agency list. Earliest Marathon-Arevon disclosure on an individual lobbyist Form 33.', 'Kramer Q1 2024 Form 33 (CEC33_47450)'],
   ['Q1 2024', '2024-03-31', 'lobby', 'Nathan Shapiro (Marathon) reports Arevon to City Council on his Form 33. Earliest specific Council contact disclosed for Arevon through Marathon.', 'Shapiro Q1 2024 Form 33 (CEC33_47436)'],
   ['Jun 2024', '2024-06-01', 'cable', 'Phase III Local Coastal Development Permit Application 24-02 submitted to LA Bureau of Engineering. Applicants are SubCom LLC and Vero Fiber Networks LLC. The project covers a Pacific Light Cable Network segment plus a second Trans-Pacific Cable Segment, landing at Dockweiler State Beach parking lot.', 'LA Bureau of Engineering Phase III LCDP 24-02 record'],
   ['Jun 11, 2024', '2024-06-11', 'cable', 'Virtual public hearing on Phase III CDP Application 24-02.', 'LA Bureau of Engineering hearing presentation (June 11, 2024)'],
   ['Jun 17, 2024', '2024-06-17', 'cable', 'LA Bureau of Engineering issues Notice of Decision approving CDP No. 24-02 (Phase III). Ten-day appeal period begins.', 'LA Bureau of Engineering Notice of Decision (June 17, 2024)'],
   ['Jun 28, 2024', '2024-06-28', 'cable', 'Phase III CDP 24-02 ten-day appeal period ends. No appeals filed.', 'LA Bureau of Engineering record'],
   ['Jul 10, 2024', '2024-07-10', 'cable', 'Notice of Permit Issuance for Phase III CDP No. 24-02. Phase III is permitted.', 'LA Bureau of Engineering Notice of Permit Issuance (July 10, 2024)'],
-  ['Jan 1, 2025', '2025-01-01', 'lobby', 'M Strategic adds "TRANSPACIFIC DATA LINES INTO LOS ANGELES" as a second Digital Realty matter alongside the existing 727 S. Grand matter. Digital Realty\'s agency list expands to add Public Works Board of and Recreation & Parks. Now 7 agencies on Digital Realty.', 'M Strategic 2025 Form 31 (CEC31_17467), client 8 of 37'],
-  ['Q1 2025', '2025-01-15', 'lobby', 'Gabriel Kramer (Marathon) lists LADWP as the sole agency contacted on the Arevon "Merlin" matter on his Form 33. Earliest documented direct LADWP contact on the Arevon Merlin matter.', 'Kramer Q1 2025 Form 33 (CEC33_51864)'],
-  ['Q1 2025', '2025-01-30', 'lobby', 'Spencer Kallick (Allen Matkins) lists Hessed Development, Inc. on his Form 33 for matter 396209.00002 at 525 South Virgil. Earliest Allen Matkins lobbying on the Virgil parcel.', 'Kallick Q1 2025 Form 33 (CEC33_51320)'],
+  ['Jan 1, 2025', '2025-01-01', 'lobby', 'M Strategic adds "TRANSPACIFIC DATA LINES INTO LOS ANGELES" as a second Digital Realty engagement alongside the existing 727 S. Grand engagement. Digital Realty\'s agency list expands to add Public Works Board of and Recreation & Parks. Now 7 agencies on Digital Realty.', 'M Strategic 2025 Form 31 (CEC31_17467), client 8 of 37'],
+  ['Q1 2025', '2025-01-15', 'lobby', 'Gabriel Kramer (Marathon) lists LADWP as the sole agency contacted on the Arevon "Merlin" engagement on his Form 33. Earliest documented direct LADWP contact on the Arevon Merlin engagement.', 'Kramer Q1 2025 Form 33 (CEC33_51864)'],
+  ['Q1 2025', '2025-01-30', 'lobby', 'Spencer Kallick (Allen Matkins) lists Hessed Development, Inc. on his Form 33 for filing 396209.00002 at 525 South Virgil. Earliest Allen Matkins lobbying on the Virgil parcel.', 'Kallick Q1 2025 Form 33 (CEC33_51320)'],
   ['Apr 9, 2025', '2025-04-09', 'property', 'Shatto Emet QOZB LP (Santa Monica) retains Marathon Communications. Same Houston phone 713-771-0188 as Hessed and 2727 6th Street LP.', 'Marathon Q2 2025 Form 34 (CEC34_52518); Marathon 2025 Form 31'],
   ['May 16, 2025', '2025-05-16', 'property', '2727 6th Street LP (Beverly Hills, Charleville Blvd.) retains Marathon Communications. Same Houston phone 713-771-0188.', 'Marathon Q2 2025 Form 34 (CEC34_52518); Marathon 2025 Form 31'],
   ['Jun 26, 2025', '2025-06-26', 'cable', 'LA Bureau of Engineering begins CEQA environmental review for the larger LAX Transpacific Cable Landing Project. Hood 1703 LLC is the applicant. Up to four submarine cable systems, about 4 miles of subsurface terrestrial conduit through LA and El Segundo, four offshore bore pipes, two beach manholes, up to four ocean ground beds. EIR required.', 'LA Bureau of Engineering CEQA Notice of Preparation / Initial Study (June 26, 2025)'],
-  ['Jul 23, 2025', '2025-07-23', 'property', 'Allen Matkins retains both Westlake holding companies (Shatto Emet QOZB LP and 2727 6th Street LP) as clients on the 525 S. Virgil and 2727 W. 6th Street matters.', 'Allen Matkins Q3 2025 Form 34 (CEC34_53743)'],
+  ['Jul 23, 2025', '2025-07-23', 'property', 'Allen Matkins retains both Westlake holding companies (Shatto Emet QOZB LP and 2727 6th Street LP) as clients on the 525 S. Virgil and 2727 W. 6th Street filings.', 'Allen Matkins Q3 2025 Form 34 (CEC34_53743)'],
   ['Jul 25, 2025', '2025-07-25', 'cable', 'CEQA public scoping comment period closes for the LAX Transpacific Cable Landing Project.', 'LA Bureau of Engineering CEQA Notice of Preparation'],
-  ['Q3 2025', '2025-09-30', 'property', 'On Kallick\'s Q3 2025 Form 33, the client name on the 525 S. Virgil matter (396209.00002) switches from Hessed Development, Inc. to Shatto Emet QOZB LP. Same APN, same matter number, same Santa Monica building. Entity transfer.', 'Kallick Q3 2025 Form 33 (CEC33_54854)'],
-  ['Q3 2025', '2025-09-30', 'lobby', 'Kallick adds 2727 6th Street LP to his Form 33 for matter 396362.00002 at 2727 West 6th Street (APN 5155-019-006). Allen Matkins now lobbies for the assembly through the holding companies.', 'Kallick Q3 2025 Form 33 (CEC33_54854)'],
-  ['Q4 2025', '2025-12-31', 'lobby', 'Marathon adopts a 10-agency boilerplate string on every active matter (Mayor, City Council, Building & Safety, Fire (LAFD), Harbor (POLA), Neighborhood Councils, Planning, Police (LAPD), Transportation (LADOT), and Water & Power (DWP)). The Westlake holding companies are now disclosed as contacting LADWP under this boilerplate.', 'Marathon Q4 2025 Form 34 (CEC34_54495)'],
-  ['Jan 1, 2026', '2026-01-01', 'lobby', 'M Strategic\'s 2026 Form 31 continues Digital Realty\'s two matters (727 S. Grand "Development of Building Downtown" and Transpacific Data Lines into Los Angeles) for the full year. Agency list runs Mayor, City Council, Planning, Public Works Board of, Recreation & Parks, and Water & Power (DWP). Transportation (LADOT) dropped from prior year.', 'M Strategic 2026 Form 31 (CEC31_143052), client 9 of 32'],
+  ['Q3 2025', '2025-09-30', 'property', 'On Kallick\'s Q3 2025 Form 33, the client name on filing 396209.00002 (525 S. Virgil) switches from Hessed Development, Inc. to Shatto Emet QOZB LP. Same APN, same filing number, same Santa Monica building.', 'Kallick Q3 2025 Form 33 (CEC33_54854)'],
+  ['Q3 2025', '2025-09-30', 'lobby', 'Kallick adds 2727 6th Street LP to his Form 33 for filing 396362.00002 at 2727 West 6th Street (APN 5155-019-006). Allen Matkins now lobbies for the assembly through the holding companies.', 'Kallick Q3 2025 Form 33 (CEC33_54854)'],
+  ['Q4 2025', '2025-12-31', 'lobby', 'Marathon lists the same 10 agencies on every active client (Mayor, City Council, Building & Safety, Fire (LAFD), Harbor (POLA), Neighborhood Councils, Planning, Police (LAPD), Transportation (LADOT), and Water & Power (DWP)). The Westlake holding companies are listed as contacting LADWP under this 10-agency list.', 'Marathon Q4 2025 Form 34 (CEC34_54495)'],
+  ['Jan 1, 2026', '2026-01-01', 'lobby', 'M Strategic\'s 2026 Form 31 continues Digital Realty\'s two engagements (727 S. Grand "Development of Building Downtown" and Transpacific Data Lines into Los Angeles) for the full year. Agency list runs Mayor, City Council, Planning, Public Works Board of, Recreation & Parks, and Water & Power (DWP). Transportation (LADOT) dropped from prior year.', 'M Strategic 2026 Form 31 (CEC31_143052), client 9 of 32'],
 ];
 
 function renderGantt() {
@@ -680,7 +696,7 @@ function renderGantt() {
 
   // Events listed newest first. Scroll DOWN to go back in time.
   const events = [
-    { date: 'Dec 15, 2025', text: "Marathon Founder and President Richard Lichtenstein added LADWP to the agency list for Shatto Emet QOZB LP and 2727 6th Street LP in Marathon's Q4 2025 Form 34. The two LPs own the supposedly self-storage Westlake properties at 525 S. Virgil and 2727 W. 6th.", source: 'Marathon%20Communications/Quarterlies/CEC34_54495.pdf', sourceLabel: 'Marathon Q4 2025 Form 34' },
+    { date: 'Dec 15, 2025', text: "Marathon Founder and President Richard Lichtenstein added LADWP to the agency list for Shatto Emet QOZB LP and 2727 6th Street LP in Marathon's Q4 2025 Form 34. The two LPs own the Westlake properties at 525 S. Virgil and 2727 W. 6th, both filed for entitlement as self-storage facilities.", source: 'Marathon%20Communications/Quarterlies/CEC34_54495.pdf', sourceLabel: 'Marathon Q4 2025 Form 34' },
     { date: 'Aug 1, 2025', text: 'Four grant deeds totaling $13M cash recorded for 525 S. Virgil Avenue. The 525 holding company had hired Allen Matkins as its lawyer six months earlier and Marathon Communications as its lobbyist four months earlier.', source: 'https://www.propertyshark.com/mason/Property-Report/?propkey=16296908&lcl=california', sourceLabel: 'LA County deed record' },
     { date: 'Jul 29, 2025', text: '2727 6th Street LP paid $10.19M cash for 2727 W. 6th Street, recorded as a grant deed with LA County. The LP had hired Marathon Communications as its lobbyist ten weeks earlier.', source: 'https://www.propertyshark.com/mason/Property-Report/?propkey=16332935&lcl=california#section_general', sourceLabel: 'LA County deed record' },
     { date: 'Jun 26, 2025', text: "Hood 1703 LLC filed its LAX Transpacific Cable Landing Project for CEQA environmental review. The project lands up to four submarine cables at Dockweiler State Beach and runs conduit to existing downtown data centers. M Strategic Communications had added this cable to Digital Realty's lobbying work six months earlier.", source: 'https://engineering.lacity.gov/about-us/divisions/environmental-management/projects/lax-transpacific-cable-landing', sourceLabel: 'LA Bureau of Engineering CEQA' },
